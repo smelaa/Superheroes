@@ -2,8 +2,11 @@ package agh.ics.oop;
 
 public class RiverField implements IField{
     @Override
-    public boolean canEnter(int energyLevel) {
-        return false;
+    public boolean canEnter(int energyLevel, IHero hero) {
+        return switch(hero.getHeroType()){
+            case Fireman -> true;
+            default -> false;
+        };
     }
 
     @Override
@@ -12,7 +15,14 @@ public class RiverField implements IField{
     }
 
     @Override
-    public void problemNotHandled() {
+    public void problemNotHandled(Engine gameEngine) {
+    }
 
+    @Override
+    public int energyCost(IHero hero) {
+        return switch(hero.getHeroType()){
+            case Fireman -> 1;
+            default -> Integer.MAX_VALUE;
+        };
     }
 }
