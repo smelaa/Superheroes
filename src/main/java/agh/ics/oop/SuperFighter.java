@@ -3,17 +3,17 @@ package agh.ics.oop;
 public class SuperFighter implements IHero{
     @Override
     public HeroType getHeroType() {
-        return null;
+        return HeroType.Fighter;
     }
 
     @Override
     public int getDailyEnergy() {
-        return 0;
+        return 6;
     }
 
     @Override
     public int getSupervilainBoost() {
-        return 0;
+        return 2;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class SuperFighter implements IHero{
 
     @Override
     public int getDetectivePuzzleBoost() {
-        return 0;
+        return DetectivePuzzle.getSolveTime() + 2;
     }
 
     @Override

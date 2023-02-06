@@ -1,18 +1,29 @@
 package agh.ics.oop;
 
+import java.util.Random;
+
 public class Fire implements IProblem{
+
+    private static int time;
+
     @Override
     public int getSolvingTime() {
-        return 0;
+        Random generator = new Random();
+        time = generator.nextInt(3) + 3;
+        return time;
     }
 
     @Override
     public int getDestructionTime() {
-        return 0;
+        return getSolvingTime() * 3;
     }
 
     @Override
-    public float getOccuranceChance() {
-        return 0;
+    public double getOccuranceChance() {
+        return 0.85;
+    }
+
+    public static int getSolveTime(){
+        return time;
     }
 }

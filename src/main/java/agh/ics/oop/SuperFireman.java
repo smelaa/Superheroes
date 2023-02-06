@@ -3,12 +3,12 @@ package agh.ics.oop;
 public class SuperFireman implements IHero{
     @Override
     public HeroType getHeroType() {
-        return null;
+        return HeroType.Fireman;
     }
 
     @Override
     public int getDailyEnergy() {
-        return 0;
+        return 4;
     }
 
     @Override
@@ -28,11 +28,11 @@ public class SuperFireman implements IHero{
 
     @Override
     public int getFireBoost() {
-        return 0;
+        return Fire.getSolveTime() - 2;
     }
 
     @Override
     public boolean canPassRiver() {
-        return false;
+        return true;
     }
 }
