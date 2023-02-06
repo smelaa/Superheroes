@@ -2,6 +2,11 @@ package agh.ics.oop;
 
 public class SuperFighter implements IHero{
     @Override
+    public HeroType getHeroType() {
+        return null;
+    }
+
+    @Override
     public int getDailyEnergy() {
         return 0;
     }

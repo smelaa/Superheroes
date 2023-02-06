@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 public class NoEntryField implements IField{
     @Override
-    public boolean canEnter(int energyLevel) {
+    public boolean canEnter(int energyLevel, IHero hero) {
         return false;
     }
 
@@ -12,7 +12,8 @@ public class NoEntryField implements IField{
     }
 
     @Override
-    public void problemNotHandled() {
+    public void problemNotHandled(Engine gameEngine) {
+        gameEngine.removeTrustPoints(0);
 
     }
 }
