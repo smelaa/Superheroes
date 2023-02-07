@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Map {
     private final HashMap<Vector2d, IField> fields=new HashMap<>();
+    private HashMap<Vector2d, IProblem> problems = new HashMap<>();
+
 
     public Map(Integer height, Integer width, Integer riverMinX, Integer riverMaxX, Integer bridges, Integer HardToPassN, Integer noEntryN) {
         generateRiver(riverMinX, riverMaxX, height, bridges);
@@ -89,4 +91,60 @@ public class Map {
             fields.put(emptyFields.get(i), new RegularField());
         }
     }
+
+    private void placeProblemOnMap(String problemName){
+        Random generator = new Random();
+        IField regular = new RegularField();
+        int x = generator.nextInt(16);
+        int y = generator.nextInt(16);
+
+        while (fields.get(new Vector2d(x, y)) != regular){
+            x  = generator.nextInt(16);
+            y = generator.nextInt(16);
+        }
+
+        IProblem problem;
+        switch (problemName){
+            case "fire" -> problem = new Fire();
+            case "detective" -> problem = new DetectivePuzzle();
+            case "technical" -> problem = new TechnicalIssue();
+            default -> problem = new SupervilainProblem();
+        }
+
+
+        problems.put(new Vector2d(x, y), problem);
+
+
+    }
+
+
+    private void whichProblemGenerate(){
+        Random generator = new Random();
+        if (generator.nextInt(101) <= 85){ //typical problem
+
+            switch (generator.nextInt(3)){
+                case 0 -> placeProblemOnMap("fire");
+                case 1-> placeProblemOnMap("detective");
+                default -> placeProblemOnMap("technical");
+            }
+        }
+        else{ //supervillain problem
+            placeProblemOnMap("supervillain");
+
+        }
+    }
+
+
+    private void generateProblemsAtStart(){
+        for (int i = 0; i < 3; i++){
+            whichProblemGenerate();
+        }
+    }
+
+
+    private void randomProblems(){
+       whichProblemGenerate();
+    }
+
+
 }

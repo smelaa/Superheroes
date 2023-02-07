@@ -1,18 +1,28 @@
 package agh.ics.oop;
 
+import java.util.Random;
+
 public class SupervilainProblem implements IProblem{
+    private static int time;
+
     @Override
     public int getSolvingTime() {
-        return 0;
+        Random generator = new Random();
+        time = generator.nextInt(3) + 5;
+        return time;
     }
 
     @Override
     public int getDestructionTime() {
-        return 0;
+        return getSolvingTime() * 2;
     }
 
     @Override
-    public float getOccuranceChance() {
-        return 0;
+    public double getOccuranceChance() {
+        return 0.15;
+    }
+
+    public static int getSolveTime(){
+        return time;
     }
 }

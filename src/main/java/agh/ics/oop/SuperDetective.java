@@ -3,27 +3,27 @@ package agh.ics.oop;
 public class SuperDetective implements IHero{
     @Override
     public HeroType getHeroType() {
-        return null;
+        return HeroType.Detective;
     }
 
     @Override
     public int getDailyEnergy() {
-        return 0;
+        return 4;
     }
 
     @Override
     public int getSupervilainBoost() {
-        return 0;
+        return SupervilainProblem.getSolveTime() - 1;
     }
 
     @Override
     public int getTechnicalIssueBoost() {
-        return 0;
+        return TechnicalIssue.getSolveTime() + 2;
     }
 
     @Override
     public int getDetectivePuzzleBoost() {
-        return 0;
+        return DetectivePuzzle.getSolveTime() - 3;
     }
 
     @Override
