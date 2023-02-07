@@ -16,4 +16,9 @@ public class NoEntryField implements IField{
         gameEngine.removeTrustPoints(0);
 
     }
+
+    @Override
+    public int energyCost(IHero hero) {
+        return 0;
+    }
 }
