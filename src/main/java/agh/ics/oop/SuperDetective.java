@@ -13,17 +13,17 @@ public class SuperDetective implements IHero{
 
     @Override
     public int getSupervilainBoost() {
-        return SupervilainProblem.getSolveTime() - 1;
+        return - 1;
     }
 
     @Override
     public int getTechnicalIssueBoost() {
-        return TechnicalIssue.getSolveTime() + 2;
+        return 2;
     }
 
     @Override
     public int getDetectivePuzzleBoost() {
-        return DetectivePuzzle.getSolveTime() - 3;
+        return 3;
     }
 
     @Override

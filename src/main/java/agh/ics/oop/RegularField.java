@@ -15,4 +15,9 @@ public class RegularField implements IField{
     public void problemNotHandled(Engine gameEngine) {
         gameEngine.removeTrustPoints(1);
     }
+
+    @Override
+    public int energyCost(IHero hero) {
+        return 1;
+    }
 }

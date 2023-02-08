@@ -1,11 +1,107 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+import java.util.Random;
+import static java.lang.Math.max;
+
 public class Engine {
     private Integer trustPoints;
-    private int days;
+    private final Map map;
+    private Integer days=0;
+    private final Integer daysOfGame;
+    private final Integer dayOfMayorSelfiesProblem;
+    private Integer dayOfNextProblemToOccur=0;
+
+    private ArrayList<IProblem> observers;
+
+    public Engine(Integer trustPoints, Integer daysOfGame) {
+        this.trustPoints = trustPoints;
+        this.daysOfGame=daysOfGame;
+        map=new Map();
+        generateProblemsAtStart();
+        Random generator = new Random();
+        dayOfMayorSelfiesProblem=generator.nextInt(daysOfGame);
+        updateDayOfNextProblem();
+    }
+    public Engine(){
+        this(3,60);
+    }
+
+    public void dayRitual(){
+        // powiadomić wszystkie problemy że jest nowy dzień DONE
+        //sprawdzić czy nie tracimy jakichś punktów ufności DONE
+        //cały ten machnizm z helikopterem - powiadomić helikopter że jest nowy dzień
+        //sprawdzić czy bohater stanął/zszedł z problemu - przy poruszaniu bohatera
+        if (days>daysOfGame) gameWon();
+        else{
+            for (IProblem problem : observers){
+                problem.newDayAlert(this);
+            }
+            if (trustPoints<=0) gameOver();
+            else {
+                checkToGenerateMayorSelfiesProblem();
+                checkToGenerateProblem();
+            }
+        }
+    }
+
+    private void checkToGenerateMayorSelfiesProblem(){
+        MayorSelfies mayorSelfies=new MayorSelfies();
+        if (days == dayOfMayorSelfiesProblem) map.placeProblemOnMap(mayorSelfies);
+        observers.add(mayorSelfies);
+    }
+    private void checkToGenerateProblem(){
+        if (days == dayOfNextProblemToOccur) generateProblem();
+    }
+
     public void removeTrustPoints(Integer n){
         trustPoints-=n;
     }
 
     public void gameOver(){}
+    public void gameWon(){}
+    private void generateProblem(){
+        Random generator = new Random();
+        IProblem problem;
+        if (generator.nextInt(101) <= 85){ //typical problem
+
+            problem= switch (generator.nextInt(3)){
+                case 0 -> new Fire();
+                case 1-> new DetectivePuzzle();
+                default -> new TechnicalIssue();
+            };
+        }
+        else{ //supervillain problem
+            problem= new SupervilainProblem();
+        }
+        map.placeProblemOnMap(problem);
+        observers.add(problem);
+    }
+
+    private void generateProblemsAtStart(){
+        for (int i = 0; i < 3; i++){
+            generateProblem();
+        }
+    }
+    private Integer updateDayOfNextProblem(){
+        Random generator = new Random();
+        int x=5-(days%5);
+        if (generator.nextInt(2)==0){
+            dayOfNextProblemToOccur+=max(x-1,1);
+        }
+        else{dayOfNextProblemToOccur+=x+1;}
+        return dayOfNextProblemToOccur;
+    }
+
+    public void problemNotHandled(Vector2d positionOnMap){
+        map.getFieldOnPosition(positionOnMap).problemNotHandled(this);
+    }
+
+    public Map getMap(){
+        return map;
+    }
+
+    public void addTrustPoints(int n) {
+        trustPoints+=n;
+    }
 }
