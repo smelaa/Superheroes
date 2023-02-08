@@ -5,9 +5,13 @@ import java.util.*;
 public class Map {
     private final HashMap<Vector2d, IField> fields=new HashMap<>();
     private HashMap<Vector2d, IProblem> problems = new HashMap<>();
+    private Integer width;
+    private Integer height;
 
 
     public Map(Integer height, Integer width, Integer riverMinX, Integer riverMaxX, Integer bridges, Integer HardToPassN, Integer noEntryN) {
+        this.width=width;
+        this.height=height;
         generateRiver(riverMinX, riverMaxX, height, bridges);
         List<Vector2d> emptyFields=new ArrayList<>();
         for (int i=0; i<width;i++){
@@ -92,59 +96,26 @@ public class Map {
         }
     }
 
-    private void placeProblemOnMap(String problemName){
+    protected void placeProblemOnMap(IProblem problem){
         Random generator = new Random();
-        IField regular = new RegularField();
-        int x = generator.nextInt(16);
-        int y = generator.nextInt(16);
+        int x = generator.nextInt(width);
+        int y = generator.nextInt(height);
 
-        while (fields.get(new Vector2d(x, y)) != regular){
-            x  = generator.nextInt(16);
-            y = generator.nextInt(16);
+        //tu można chyba trochę lepiej jeśli zrobimy set z miejscami w których mogą się pojawiać problem
+        while (!fields.get(new Vector2d(x, y)).canProblemOccur() || problems.containsKey(new Vector2d(x,y))){
+            x  = generator.nextInt(width);
+            y = generator.nextInt(height);
         }
-
-        IProblem problem;
-        switch (problemName){
-            case "fire" -> problem = new Fire();
-            case "detective" -> problem = new DetectivePuzzle();
-            case "technical" -> problem = new TechnicalIssue();
-            default -> problem = new SupervilainProblem();
-        }
-
 
         problems.put(new Vector2d(x, y), problem);
-
-
+        problem.placeOnMap(new Vector2d(x,y));
     }
 
-
-    private void whichProblemGenerate(){
-        Random generator = new Random();
-        if (generator.nextInt(101) <= 85){ //typical problem
-
-            switch (generator.nextInt(3)){
-                case 0 -> placeProblemOnMap("fire");
-                case 1-> placeProblemOnMap("detective");
-                default -> placeProblemOnMap("technical");
-            }
-        }
-        else{ //supervillain problem
-            placeProblemOnMap("supervillain");
-
-        }
+    public IField getFieldOnPosition(Vector2d position){
+        return fields.get(position);
     }
 
-
-    private void generateProblemsAtStart(){
-        for (int i = 0; i < 3; i++){
-            whichProblemGenerate();
-        }
+    public void removeProblem(Vector2d position){
+        problems.remove(position);
     }
-
-
-    private void randomProblems(){
-       whichProblemGenerate();
-    }
-
-
 }

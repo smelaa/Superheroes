@@ -2,26 +2,16 @@ package agh.ics.oop;
 
 import java.util.Random;
 
-public class TechnicalIssue implements IProblem {
-    private static int time;
-    @Override
-    public int getSolvingTime() {
+public class TechnicalIssue extends AbstractProblem {
+    public TechnicalIssue() {
         Random generator = new Random();
-        time = generator.nextInt(3) + 3;
-        return time;
+        solvingTime = generator.nextInt(3) + 3;
+        daysLeftSolve=solvingTime;
     }
 
     @Override
-    public int getDestructionTime() {
-        return getSolvingTime() * 3;
-    }
-
-    @Override
-    public double getOccuranceChance() {
-        return 0.85;
-    }
-
-    public static int getSolveTime(){
-        return time;
+    public void startSolving(IHero hero) {
+        daysLeftSolve-=hero.getTechnicalIssueBoost();
+        currentlySolving=true;
     }
 }

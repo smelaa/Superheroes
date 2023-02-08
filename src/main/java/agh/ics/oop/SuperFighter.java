@@ -23,7 +23,7 @@ public class SuperFighter implements IHero{
 
     @Override
     public int getDetectivePuzzleBoost() {
-        return DetectivePuzzle.getSolveTime() + 2;
+        return 2;
     }
 
     @Override

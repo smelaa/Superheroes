@@ -28,7 +28,7 @@ public class SuperFireman implements IHero{
 
     @Override
     public int getFireBoost() {
-        return Fire.getSolveTime() - 2;
+        return - 2;
     }
 
     @Override
