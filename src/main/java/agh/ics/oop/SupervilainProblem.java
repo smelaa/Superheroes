@@ -3,7 +3,8 @@ package agh.ics.oop;
 import java.util.Random;
 
 public class SupervilainProblem extends AbstractProblem{
-    public SupervilainProblem() {
+    public SupervilainProblem(int dayOfOccurance) {
+        placedOnMap=dayOfOccurance;
         Random generator = new Random();
         solvingTime = generator.nextInt(3) + 5;
         daysLeftSolve=solvingTime;
@@ -15,11 +16,22 @@ public class SupervilainProblem extends AbstractProblem{
     @Override
     public void startSolving(IHero hero) {
         daysLeftSolve-=hero.getSupervilainBoost();
-        currentlySolving=true;
     }
     @Override
     public String getImage() {
         return "src/main/resources/supervilainproblem.jpg";
+    }
+    @Override
+    public String getPortrait() {
+        return "src/main/resources/supervilainproblem.jpg";
+    }
+    @Override
+    public String getName() {
+        return "Supervilain!!!!";
+    }
+    @Override
+    public String getDescription() {
+        return "tu wpisać opis";
     }
 
 }
