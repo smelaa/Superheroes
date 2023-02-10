@@ -150,18 +150,38 @@ public class Map {
         return fields.get(position).getColor();
     }
 
-    public void moveHeroOnMap(HeroType hType, MoveDirection direction){
+    public MoveCoordinates moveHeroOnMap(HeroType hType, MoveDirection direction){
         IHero currHero= switch(hType){
             case Fighter -> fighter;
             case Fireman -> fireman;
             case Detective -> detective;
             case ComputerScientist -> scientist;
         };
-        heroes.remove(currHero.getPosition());
-        currHero.changePosition(currHero.getPosition().add(direction.toUnitVector()));
-        heroes.put(currHero.getPosition(),currHero);
+        Vector2d newPosition=currHero.getPosition().add(direction.toUnitVector());
+        if (currHero.getEnergy()-fields.get(newPosition).energyCost(currHero)>=0){
+            MoveCoordinates moveCoordinates= new MoveCoordinates(currHero.getPosition(), newPosition);
+            heroes.remove(currHero.getPosition());
+            currHero.changePosition(newPosition);
+            heroes.put(currHero.getPosition(),currHero);
+            currHero.assignProblem(problems.get(currHero.getPosition()));
+            return moveCoordinates;
+        }
+        return null;
     }
 
+    public void renewHeroesEnergy(){
+        fireman.renewEnergy();
+        fighter.renewEnergy();
+        scientist.renewEnergy();
+        detective.renewEnergy();
+    }
+
+    public void fightProblems(){
+        fireman.fightProblem();
+        fighter.fightProblem();
+        scientist.fightProblem();
+        detective.fightProblem();
+    }
     public boolean isProblemOnField(Vector2d position) {
         return problems.containsKey(position);
     }
@@ -177,5 +197,25 @@ public class Map {
     public String getHeroImage(Vector2d position) {
         if (!isHeroOnField(position)){return null;}
         return heroes.get(position).getImage();
+    }
+
+    public void removeSolvedProblems(Engine engine) {
+        Vector2d[] positions = (Vector2d[]) problems.keySet().toArray();
+        for(Vector2d position : positions){
+            if(problems.get(position).isSolved()){
+                engine.addTrustPoints(problems.get(position).trustLoaf());
+                problems.remove(position);
+            }
+        }
+    }
+
+    public void destructProblems(Engine engine) {
+        Vector2d[] positions = (Vector2d[]) problems.keySet().toArray();
+        for(Vector2d position : positions){
+            if(problems.get(position).shouldBeDestructed(engine.getDayNumber())){
+                engine.removeTrustPoint();
+                problems.remove(position);
+            }
+        }
     }
 }

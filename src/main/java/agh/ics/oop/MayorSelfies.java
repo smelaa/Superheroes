@@ -1,7 +1,8 @@
 package agh.ics.oop;
 
 public class MayorSelfies extends AbstractProblem{
-    public MayorSelfies() {
+    public MayorSelfies(int dayOfOccurance) {
+        placedOnMap=dayOfOccurance;
         solvingTime= 3;
         daysLeftSolve=solvingTime;
     }
@@ -10,29 +11,30 @@ public class MayorSelfies extends AbstractProblem{
     public int getDestructionTime() {
         return 6;
     }
-    @Override
-    public void newDayAlert(Engine engine) {
-        if(getDestructionTime()<=timeOnMap){
-            engine.getMap().removeProblem(position);
-        }
-        else if (daysLeftSolve<=0){
-            engine.getMap().removeProblem(position);
-            engine.addTrustPoints(1);
-        }
-        if (currentlySolving){
-            daysLeftSolve-=1;
-        }
-        timeOnMap+=1;
-    }
 
     @Override
     public void startSolving(IHero hero) {
-        currentlySolving=true;
     }
+
     @Override
     public String getImage() {
         return "src/main/resources/mayorselfies.jpg";
     }
-
+    @Override
+    public String getPortrait() {
+        return "src/main/resources/mayorselfies.jpg";
+    }
+    @Override
+    public String getName() {
+        return "Mayor selfies";
+    }
+    @Override
+    public String getDescription() {
+        return "tu wpisać opis";
+    }
+    @Override
+    public int trustLoaf() {
+        return 1;
+    }
 
 }

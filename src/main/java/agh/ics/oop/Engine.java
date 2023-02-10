@@ -12,8 +12,6 @@ public class Engine {
     private final Integer dayOfMayorSelfiesProblem;
     private Integer dayOfNextProblemToOccur=0;
 
-    private ArrayList<IProblem> observers;
-
     public Engine(Integer trustPoints, Integer daysOfGame) {
         this.trustPoints = trustPoints;
         this.daysOfGame=daysOfGame;
@@ -32,23 +30,20 @@ public class Engine {
         //sprawdzić czy nie tracimy jakichś punktów ufności DONE
         //cały ten machnizm z helikopterem - powiadomić helikopter że jest nowy dzień
         //sprawdzić czy bohater stanął/zszedł z problemu - przy poruszaniu bohatera
+        days+=1;
         if (days>daysOfGame) gameWon();
-        else{
-            for (IProblem problem : observers){
-                problem.newDayAlert(this);
-            }
-            if (trustPoints<=0) gameOver();
-            else {
-                checkToGenerateMayorSelfiesProblem();
-                checkToGenerateProblem();
-            }
-        }
+        map.fightProblems();
+        map.removeSolvedProblems(this);
+        map.destructProblems(this);
+        if (trustPoints<=0) gameOver();
+        map.renewHeroesEnergy();
+        checkToGenerateMayorSelfiesProblem();
+        checkToGenerateProblem();
     }
 
     private void checkToGenerateMayorSelfiesProblem(){
-        MayorSelfies mayorSelfies=new MayorSelfies();
+        MayorSelfies mayorSelfies=new MayorSelfies(days);
         if (days == dayOfMayorSelfiesProblem) map.placeProblemOnMap(mayorSelfies);
-        observers.add(mayorSelfies);
     }
     private void checkToGenerateProblem(){
         if (days == dayOfNextProblemToOccur) generateProblem();
@@ -66,16 +61,15 @@ public class Engine {
         if (generator.nextInt(101) <= 85){ //typical problem
 
             problem= switch (generator.nextInt(3)){
-                case 0 -> new Fire();
-                case 1-> new DetectivePuzzle();
-                default -> new TechnicalIssue();
+                case 0 -> new Fire(days);
+                case 1-> new DetectivePuzzle(days);
+                default -> new TechnicalIssue(days);
             };
         }
         else{ //supervillain problem
-            problem= new SupervilainProblem();
+            problem= new SupervilainProblem(days);
         }
         map.placeProblemOnMap(problem);
-        observers.add(problem);
     }
 
     private void generateProblemsAtStart(){
@@ -93,9 +87,6 @@ public class Engine {
         return dayOfNextProblemToOccur;
     }
 
-    public void problemNotHandled(Vector2d positionOnMap){
-        map.getFieldOnPosition(positionOnMap).problemNotHandled(this);
-    }
 
     public Map getMap(){
         return map;
@@ -103,5 +94,16 @@ public class Engine {
 
     public void addTrustPoints(int n) {
         trustPoints+=n;
+    }
+    public void removeTrustPoint() {
+        trustPoints-=1;
+    }
+
+    public MoveCoordinates moveHero(HeroType hero, MoveDirection direction) {
+        return map.moveHeroOnMap(hero,direction);
+    }
+
+    public Integer getDayNumber() {
+        return days;
     }
 }
