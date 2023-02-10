@@ -1,12 +1,14 @@
 package agh.ics.oop;
 
-public interface IProblem {
+public interface IProblem extends IMapElement{
     int getSolvingTime();
     int getDestructionTime();
-    void newDayAlert(Engine engine);
     void placeOnMap(Vector2d position);
+    void solve();
+    String getImage();
+    boolean isSolved();
     void startSolving(IHero hero);
     void stopSolving();
-
-    String getImage();
+    int trustLoaf();
+    boolean shouldBeDestructed(int currDay);
 }

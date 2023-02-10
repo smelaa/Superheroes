@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 public class SuperFireman implements IHero{
     private Vector2d position;
+    private int currEnergy=getDailyEnergy();
+    private IProblem myOwnProblem=null;
 
     public SuperFireman(Vector2d position) {
         this.position = position;
@@ -53,5 +55,40 @@ public class SuperFireman implements IHero{
     @Override
     public String getImage() {
         return "src/main/resources/superfireman.jpg";
+    }
+
+    @Override
+    public int getEnergy() {
+        return currEnergy;
+    }
+
+    @Override
+    public int renewEnergy() {
+        return currEnergy=getDailyEnergy();
+    }
+
+    @Override
+    public void assignProblem(IProblem problem) {
+        if (myOwnProblem!=null){myOwnProblem.stopSolving();}
+        if (problem!=null){problem.startSolving(this);}
+        myOwnProblem=problem;
+    }
+
+    @Override
+    public void fightProblem() {
+        myOwnProblem.solve();
+    }
+
+    @Override
+    public String getPortrait() {
+        return "src/main/resources/superfireman.jpg";
+    }
+    @Override
+    public String getName() {
+        return "Super Fireman";
+    }
+    @Override
+    public String getDescription() {
+        return "tu wpisać opis";
     }
 }

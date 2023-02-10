@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 public class SuperCompuerScientist implements IHero{
     private Vector2d position;
+    private int currEnergy=getDailyEnergy();
+    private IProblem myOwnProblem=null;
 
     public SuperCompuerScientist(Vector2d position) {
         this.position = position;
@@ -54,6 +56,41 @@ public class SuperCompuerScientist implements IHero{
     @Override
     public String getImage() {
         return "src/main/resources/supercomputerscientist.jpg";
+    }
+
+    @Override
+    public int getEnergy() {
+        return currEnergy;
+    }
+
+    @Override
+    public int renewEnergy() {
+        return currEnergy=getDailyEnergy();
+    }
+
+    @Override
+    public void assignProblem(IProblem problem) {
+        if (myOwnProblem!=null){myOwnProblem.stopSolving();}
+        if (problem!=null){problem.startSolving(this);}
+        myOwnProblem=problem;
+    }
+
+    @Override
+    public void fightProblem() {
+        myOwnProblem.solve();
+    }
+
+    @Override
+    public String getPortrait() {
+        return "src/main/resources/supercomputerscientist.jpg";
+    }
+    @Override
+    public String getName() {
+        return "Super Computer Scientist";
+    }
+    @Override
+    public String getDescription() {
+        return "tu wpisać opis";
     }
 
 }
