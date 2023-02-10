@@ -25,4 +25,6 @@ public class RiverField implements IField{
             default -> Integer.MAX_VALUE;
         };
     }
+    @Override
+    public String getColor(){return "-fx-background-color: #43E9F5";}
 }

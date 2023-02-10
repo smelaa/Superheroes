@@ -17,5 +17,9 @@ public class SupervilainProblem extends AbstractProblem{
         daysLeftSolve-=hero.getSupervilainBoost();
         currentlySolving=true;
     }
+    @Override
+    public String getImage() {
+        return "src/main/resources/supervilainproblem.jpg";
+    }
 
 }

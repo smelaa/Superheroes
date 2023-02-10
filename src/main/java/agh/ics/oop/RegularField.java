@@ -20,4 +20,6 @@ public class RegularField implements IField{
     public int energyCost(IHero hero) {
         return 1;
     }
+    @Override
+    public String getColor(){return "-fx-background-color: #42C733";}
 }

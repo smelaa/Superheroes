@@ -1,6 +1,12 @@
 package agh.ics.oop;
 
 public class SuperDetective implements IHero{
+    private Vector2d position;
+
+    public SuperDetective(Vector2d position) {
+        this.position = position;
+    }
+
     @Override
     public HeroType getHeroType() {
         return HeroType.Detective;
@@ -34,5 +40,18 @@ public class SuperDetective implements IHero{
     @Override
     public boolean canPassRiver() {
         return false;
+    }
+
+    @Override
+    public void changePosition(Vector2d newPos) {
+        position=newPos;
+    }
+    @Override
+    public Vector2d getPosition() {
+        return position;
+    }
+    @Override
+    public String getImage() {
+        return "src/main/resources/superdetective.jpg";
     }
 }

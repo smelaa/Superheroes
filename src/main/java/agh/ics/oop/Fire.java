@@ -13,4 +13,8 @@ public class Fire extends AbstractProblem{
         daysLeftSolve-=hero.getFireBoost();
         currentlySolving=true;
     }
+    @Override
+    public String getImage() {
+        return "src/main/resources/fire.jpg";
+    }
 }
