@@ -14,4 +14,8 @@ public class TechnicalIssue extends AbstractProblem {
         daysLeftSolve-=hero.getTechnicalIssueBoost();
         currentlySolving=true;
     }
+    @Override
+    public String getImage() {
+        return "src/main/resources/technicalissue.jpg";
+    }
 }

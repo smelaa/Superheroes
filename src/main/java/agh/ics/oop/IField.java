@@ -6,4 +6,6 @@ public interface IField {
     void problemNotHandled(Engine gameEngine);
 
     int energyCost(IHero hero);
+
+    String getColor();
 }

@@ -1,6 +1,12 @@
 package agh.ics.oop;
 
 public class SuperCompuerScientist implements IHero{
+    private Vector2d position;
+
+    public SuperCompuerScientist(Vector2d position) {
+        this.position = position;
+    }
+
     @Override
     public HeroType getHeroType() {
         return HeroType.ComputerScientist;
@@ -35,4 +41,19 @@ public class SuperCompuerScientist implements IHero{
     public boolean canPassRiver() {
         return false;
     }
+
+    @Override
+    public void changePosition(Vector2d newPos) {
+        position=newPos;
+    }
+
+    @Override
+    public Vector2d getPosition() {
+        return position;
+    }
+    @Override
+    public String getImage() {
+        return "src/main/resources/supercomputerscientist.jpg";
+    }
+
 }

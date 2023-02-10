@@ -20,4 +20,7 @@ public class HardToPassField implements IField{
     public int energyCost(IHero hero) {
         return 2;
     }
+
+    @Override
+    public String getColor(){return "-fx-background-color: #442000";}
 }

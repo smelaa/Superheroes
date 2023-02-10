@@ -8,4 +8,9 @@ public interface IHero {
     int getDetectivePuzzleBoost();
     int getFireBoost();
     boolean canPassRiver();
+    void changePosition(Vector2d newPos);
+
+    Vector2d getPosition();
+
+    String getImage();
 }
