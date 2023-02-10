@@ -40,4 +40,5 @@ public abstract class AbstractProblem implements IProblem {
         currentlySolving=false;
         daysLeftSolve=solvingTime;
     }
+    public abstract String getImage();
 }

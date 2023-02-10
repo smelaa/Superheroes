@@ -15,4 +15,9 @@ public class DetectivePuzzle extends AbstractProblem{
         currentlySolving=true;
     }
 
+    @Override
+    public String getImage() {
+        return "src/main/resources/detectivepuzzle.jpg";
+    }
+
 }

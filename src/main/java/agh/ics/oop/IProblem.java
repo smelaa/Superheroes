@@ -7,4 +7,6 @@ public interface IProblem {
     void placeOnMap(Vector2d position);
     void startSolving(IHero hero);
     void stopSolving();
+
+    String getImage();
 }

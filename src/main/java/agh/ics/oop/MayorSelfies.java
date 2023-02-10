@@ -29,7 +29,10 @@ public class MayorSelfies extends AbstractProblem{
     public void startSolving(IHero hero) {
         currentlySolving=true;
     }
-
+    @Override
+    public String getImage() {
+        return "src/main/resources/mayorselfies.jpg";
+    }
 
 
 }

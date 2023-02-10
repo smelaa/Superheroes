@@ -1,10 +1,17 @@
 package agh.ics.oop;
 
+import javafx.scene.image.Image;
+
 import java.util.*;
 
 public class Map {
     private final HashMap<Vector2d, IField> fields=new HashMap<>();
     private HashMap<Vector2d, IProblem> problems = new HashMap<>();
+    private HashMap<Vector2d, IHero> heroes = new HashMap<>();
+    private SuperFighter fighter;
+    private SuperFireman fireman;
+    private SuperDetective detective;
+    private SuperCompuerScientist scientist;
     private Integer width;
     private Integer height;
 
@@ -21,8 +28,9 @@ public class Map {
         }
         generateHardToPassFields(emptyFields,HardToPassN);
         generateNoEntryFields(emptyFields,noEntryN);
-        generateSpecialFields(emptyFields);
+        Vector2d sweetHomePos=generateSpecialFields(emptyFields);
         generateRegularFields(emptyFields);
+        generateHeros(sweetHomePos);
     }
 
     public Map(){
@@ -76,7 +84,7 @@ public class Map {
         }
     }
 
-    private void generateSpecialFields(List<Vector2d> emptyFields){
+    private Vector2d generateSpecialFields(List<Vector2d> emptyFields){
         if (emptyFields.size()<2){throw new IllegalArgumentException("there is not enough empty fields to generate TownHall and Home");}
         Random generator = new Random();
 
@@ -85,15 +93,26 @@ public class Map {
         emptyFields.remove(ix);
 
         ix = generator.nextInt(emptyFields.size());
-        fields.put(emptyFields.get(ix), new SweetHome());
+        Vector2d sweetHomePos=emptyFields.get(ix);
+        fields.put(sweetHomePos, new SweetHome());
         emptyFields.remove(ix);
-
+        return sweetHomePos;
     }
 
     private void generateRegularFields(List<Vector2d> emptyFields){
         for (int i=0;i<emptyFields.size();i++){
             fields.put(emptyFields.get(i), new RegularField());
         }
+    }
+    private void generateHeros(Vector2d sweetHomePos) {
+        fighter=new SuperFighter(sweetHomePos);
+        fireman=new SuperFireman(sweetHomePos);
+        detective=new SuperDetective(sweetHomePos);
+        scientist=new SuperCompuerScientist(sweetHomePos);
+        heroes.put(sweetHomePos,fighter);
+        heroes.put(sweetHomePos,fireman);
+        heroes.put(sweetHomePos,detective);
+        heroes.put(sweetHomePos,scientist);
     }
 
     protected void placeProblemOnMap(IProblem problem){
@@ -117,5 +136,46 @@ public class Map {
 
     public void removeProblem(Vector2d position){
         problems.remove(position);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public String getColorOnField(Vector2d position) {
+        return fields.get(position).getColor();
+    }
+
+    public void moveHeroOnMap(HeroType hType, MoveDirection direction){
+        IHero currHero= switch(hType){
+            case Fighter -> fighter;
+            case Fireman -> fireman;
+            case Detective -> detective;
+            case ComputerScientist -> scientist;
+        };
+        heroes.remove(currHero.getPosition());
+        currHero.changePosition(currHero.getPosition().add(direction.toUnitVector()));
+        heroes.put(currHero.getPosition(),currHero);
+    }
+
+    public boolean isProblemOnField(Vector2d position) {
+        return problems.containsKey(position);
+    }
+
+    public String getProblemImage(Vector2d position) {
+        if (!isProblemOnField(position)){return null;}
+        return problems.get(position).getImage();
+    }
+
+    public boolean isHeroOnField(Vector2d position) {
+        return heroes.containsKey(position);
+    }
+    public String getHeroImage(Vector2d position) {
+        if (!isHeroOnField(position)){return null;}
+        return heroes.get(position).getImage();
     }
 }
