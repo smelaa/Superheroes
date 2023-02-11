@@ -1,16 +1,19 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
+import javafx.application.Platform;
+
 import java.util.Random;
 import static java.lang.Math.max;
 
-public class Engine {
+public class Engine{
     private Integer trustPoints;
     private final Map map;
-    private Integer days=0;
+    private Integer days=1;
     private final Integer daysOfGame;
     private final Integer dayOfMayorSelfiesProblem;
     private Integer dayOfNextProblemToOccur=0;
+    private boolean lost=false;
+    private boolean won=false;
 
     public Engine(Integer trustPoints, Integer daysOfGame) {
         this.trustPoints = trustPoints;
@@ -26,10 +29,6 @@ public class Engine {
     }
 
     public void dayRitual(){
-        // powiadomić wszystkie problemy że jest nowy dzień DONE
-        //sprawdzić czy nie tracimy jakichś punktów ufności DONE
-        //cały ten machnizm z helikopterem - powiadomić helikopter że jest nowy dzień
-        //sprawdzić czy bohater stanął/zszedł z problemu - przy poruszaniu bohatera
         days+=1;
         if (days>daysOfGame) gameWon();
         map.fightProblems();
@@ -46,15 +45,22 @@ public class Engine {
         if (days == dayOfMayorSelfiesProblem) map.placeProblemOnMap(mayorSelfies);
     }
     private void checkToGenerateProblem(){
-        if (days == dayOfNextProblemToOccur) generateProblem();
+        if (days == dayOfNextProblemToOccur) {
+            generateProblem();
+            updateDayOfNextProblem();
+        }
     }
 
     public void removeTrustPoints(Integer n){
         trustPoints-=n;
     }
 
-    public void gameOver(){}
-    public void gameWon(){}
+    public void gameOver(){
+        lost=true;
+    }
+    public void gameWon(){
+        won=true;
+    }
     private void generateProblem(){
         Random generator = new Random();
         IProblem problem;
@@ -106,4 +112,18 @@ public class Engine {
     public Integer getDayNumber() {
         return days;
     }
+
+    public boolean isGameWon() {
+        return won;
+    }
+    public boolean isGameLost(){return lost;}
+
+    public Integer getTrustPoints() {
+        return trustPoints;
+    }
+
+    public IHero getHero(HeroType hero) {
+        return map.getHero(hero);
+    }
 }
+

@@ -54,7 +54,7 @@ public class SuperDetective implements IHero{
     }
     @Override
     public String getImage() {
-        return "src/main/resources/superdetective.jpg";
+        return "src/main/resources/pictures/detective.png";
     }
 
     @Override
@@ -76,19 +76,25 @@ public class SuperDetective implements IHero{
 
     @Override
     public void fightProblem() {
-        myOwnProblem.solve();
+        if (myOwnProblem!=null) {
+            myOwnProblem.solve();
+        }
     }
 
     @Override
     public String getPortrait() {
-        return "src/main/resources/superdetective.jpg";
+        return "src/main/resources/pictures/detective_p.png";
     }
     @Override
     public String getName() {
-        return "Super Detective";
+        return "Sherlock Horns";
     }
     @Override
     public String getDescription() {
         return "tu wpisać opis";
+    }
+    @Override
+    public void subtractEnergy(IField field){
+        currEnergy-= field.energyCost(this);
     }
 }

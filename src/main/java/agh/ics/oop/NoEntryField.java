@@ -19,8 +19,8 @@ public class NoEntryField implements IField{
 
     @Override
     public int energyCost(IHero hero) {
-        return 0;
+        return Integer.MAX_VALUE;
     }
     @Override
-    public String getColor(){return "-fx-background-color: #000000";}
+    public String getColor(){return "-fx-background-color: #00420A";}
 }

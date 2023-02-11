@@ -22,5 +22,5 @@ public class HardToPassField implements IField{
     }
 
     @Override
-    public String getColor(){return "-fx-background-color: #442000";}
+    public String getColor(){return "-fx-background-color: #24960B";}
 }

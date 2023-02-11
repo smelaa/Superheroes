@@ -17,11 +17,11 @@ public class DetectivePuzzle extends AbstractProblem{
 
     @Override
     public String getImage() {
-        return "src/main/resources/detectivepuzzle.jpg";
+        return "src/main/resources/pictures/puzzle.png";
     }
     @Override
     public String getPortrait() {
-        return "src/main/resources/detectivepuzzle.jpg";
+        return "src/main/resources/pictures/puzzle_p.png";
     }
     @Override
     public String getName() {

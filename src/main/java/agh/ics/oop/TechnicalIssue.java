@@ -16,11 +16,11 @@ public class TechnicalIssue extends AbstractProblem {
     }
     @Override
     public String getImage() {
-        return "src/main/resources/technicalissue.jpg";
+        return "src/main/resources/pictures/technicalissue.png";
     }
     @Override
     public String getPortrait() {
-        return "src/main/resources/technicalissue.jpg";
+        return "src/main/resources/pictures/technicalissue_p.png";
     }
     @Override
     public String getName() {

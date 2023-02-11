@@ -54,7 +54,7 @@ public class SuperFighter implements IHero{
     }
     @Override
     public String getImage() {
-        return "src/main/resources/superfighter.jpg";
+        return "src/main/resources/pictures/fighter.png";
     }
 
     @Override
@@ -76,19 +76,25 @@ public class SuperFighter implements IHero{
 
     @Override
     public void fightProblem() {
-        myOwnProblem.solve();
+        if (myOwnProblem!=null) {
+            myOwnProblem.solve();
+        }
     }
 
     @Override
     public String getPortrait() {
-        return "src/main/resources/superfighter.jpg";
+        return "src/main/resources/pictures/fighter_p.png";
     }
     @Override
     public String getName() {
-        return "Super Fighter";
+        return "Rocky";
     }
     @Override
     public String getDescription() {
         return "tu wpisać opis";
+    }
+    @Override
+    public void subtractEnergy(IField field){
+        currEnergy-= field.energyCost(this);
     }
 }

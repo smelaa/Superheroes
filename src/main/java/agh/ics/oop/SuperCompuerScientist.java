@@ -55,7 +55,7 @@ public class SuperCompuerScientist implements IHero{
     }
     @Override
     public String getImage() {
-        return "src/main/resources/supercomputerscientist.jpg";
+        return "src/main/resources/pictures/scientist.png";
     }
 
     @Override
@@ -77,20 +77,27 @@ public class SuperCompuerScientist implements IHero{
 
     @Override
     public void fightProblem() {
-        myOwnProblem.solve();
+        if (myOwnProblem!=null) {
+            myOwnProblem.solve();
+        }
     }
 
     @Override
     public String getPortrait() {
-        return "src/main/resources/supercomputerscientist.jpg";
+        return "src/main/resources/pictures/scientist_p.png";
     }
     @Override
     public String getName() {
-        return "Super Computer Scientist";
+        return "Bug Buster";
     }
     @Override
     public String getDescription() {
         return "tu wpisać opis";
+    }
+
+    @Override
+    public void subtractEnergy(IField field){
+        currEnergy-= field.energyCost(this);
     }
 
 }

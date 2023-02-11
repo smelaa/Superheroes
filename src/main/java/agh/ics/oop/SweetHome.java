@@ -22,6 +22,6 @@ public class SweetHome implements IField{
     }
 
     @Override
-    public String getColor(){return "-fx-background-color: #FF99CC";}
+    public String getColor(){return "-fx-background-color: #FF61C3";}
 
 }

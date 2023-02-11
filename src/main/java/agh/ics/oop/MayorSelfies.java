@@ -18,15 +18,15 @@ public class MayorSelfies extends AbstractProblem{
 
     @Override
     public String getImage() {
-        return "src/main/resources/mayorselfies.jpg";
+        return "src/main/resources/pictures/mayorselfies.png";
     }
     @Override
     public String getPortrait() {
-        return "src/main/resources/mayorselfies.jpg";
+        return "src/main/resources/pictures/mayorselfies_p.png";
     }
     @Override
     public String getName() {
-        return "Mayor selfies";
+        return "Scandal: Mayor's selfies in newspaper";
     }
     @Override
     public String getDescription() {
