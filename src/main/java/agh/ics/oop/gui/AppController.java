@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -22,14 +23,18 @@ import java.io.FileNotFoundException;
 import static java.lang.Math.min;
 
 public class AppController {
-    private final Double HEIGHT=667.0;
-    private final Double WIDTH=667.0;
+    private final Double HEIGHT=550.0;
+    private final Double WIDTH=550.0;
     private Engine engine;
     @FXML
     private Label everydayLabel;
+    @FXML
+    private GridPane wholeScene;
 
     @FXML
     private Label dayCounter;
+    @FXML
+    private Label trustPoints;
 
     @FXML
     private GridPane chooseFighter;
@@ -47,34 +52,32 @@ public class AppController {
     private GridPane mapPane;
     private HeroType activeHero=null;
 
+    public void initial(Engine newEngine){
+        this.engine=newEngine;
+        renderFighterGrid();
+        renderMap();
+    }
+
     @FXML
     private void startNewDay(){
         engine.dayRitual();
-        renderMap();
         dayCounter.setText(engine.getDayNumber().toString());
+        trustPoints.setText(engine.getTrustPoints().toString());
         everydayLabel.setText(getRandomText());
-    }
-    private EventHandler<KeyEvent> keyListener = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-            if (!(activeHero ==null)){
-                switch (event.getCode()){
-                    case UP -> moveActiveHero(MoveDirection.FORWARD);
-                    case DOWN -> moveActiveHero(MoveDirection.BACKWARD);
-                    case RIGHT -> moveActiveHero(MoveDirection.RIGHT);
-                    case LEFT -> moveActiveHero(MoveDirection.LEFT);
-                    default -> {}
-                }
-            }
-            event.consume();
+        if(engine.isGameWon()){gameWon();}
+        else if (engine.isGameLost()){gameLost();}
+        else {
+            renderMap();
         }
-    };
+    }
 
-    private void moveActiveHero(MoveDirection direction){
+    public void moveActiveHero(MoveDirection direction){
         MoveCoordinates coordinates=engine.moveHero(activeHero, direction);
         if (coordinates!=null){
-            renderField(coordinates.oldCoordinates());
-            renderField(coordinates.newCoordinates());
+            renderMap();
+            //tu może można zrobić tak żeby nie renderować całej mapy tylko dwa pola - ale wychodzą błędy
+//            renderField(coordinates.oldCoordinates());
+//            renderField(coordinates.newCoordinates());
         }
     }
 
@@ -103,18 +106,18 @@ public class AppController {
         newPane.setGridLinesVisible(true);
         newPane.setStyle(engine.getMap().getColorOnField(position));
         if (engine.getMap().isProblemOnField(position)){
-            Image image = null;
+            Image image;
             try {
-                image = new Image(new FileInputStream(engine.getMap().getProblemImage(position)));
+                image = new Image(new FileInputStream(engine.getMap().getProblemImage(position)),WIDTH/engine.getMap().getWidth(),HEIGHT/engine.getMap().getHeight(),false,false);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
             newPane.add(new ImageView(image),0,0);
         }
         if (engine.getMap().isHeroOnField(position)){
-            Image image = null;
+            Image image;
             try {
-                image = new Image(new FileInputStream(engine.getMap().getHeroImage(position)));
+                image = new Image(new FileInputStream(engine.getMap().getHeroImage(position)),WIDTH/engine.getMap().getWidth(),HEIGHT/engine.getMap().getHeight(),false,false);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -126,4 +129,68 @@ public class AppController {
     private String getRandomText(){
         return "turiruri";
     }
+
+    private void renderFighterGrid(){
+        try {
+
+            ImageView scientistImage=new ImageView(new Image(new FileInputStream("src/main/resources/supercomputerscientist.jpg"),50,50,false,false));
+            ImageView detectiveImage=new ImageView(new Image(new FileInputStream("src/main/resources/superdetective.jpg"),50,50,false,false));
+            ImageView fighterImage=new ImageView(new Image(new FileInputStream("src/main/resources/superfighter.jpg"),50,50,false,false));
+            ImageView firemanImage=new ImageView(new Image(new FileInputStream("src/main/resources/superfireman.jpg"),50,50,false,false));
+            scientistImage.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    activeHero=HeroType.ComputerScientist;
+                }
+            });
+            detectiveImage.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    activeHero=HeroType.Detective;
+                }
+            });
+            fighterImage.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    activeHero=HeroType.Fighter;
+                }
+            });
+            firemanImage.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    activeHero=HeroType.Fireman;
+                }
+            });
+            chooseFighter.add(scientistImage,0,0);
+            chooseFighter.add(detectiveImage,0,1);
+            chooseFighter.add(fighterImage,0,2);
+            chooseFighter.add(firemanImage,0,3);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void gameWon(){
+        wholeScene.getChildren().clear();
+        wholeScene.getColumnConstraints().clear();
+        wholeScene.getRowConstraints().clear();
+        try {
+            wholeScene.add(new ImageView(new Image(new FileInputStream("src/main/resources/won.jpg"))),0,0);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void gameLost(){
+        wholeScene.getChildren().clear();
+        wholeScene.getColumnConstraints().clear();
+        wholeScene.getRowConstraints().clear();
+        try {
+            wholeScene.add(new ImageView(new Image(new FileInputStream("src/main/resources/lost.jpg"))),0,0);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

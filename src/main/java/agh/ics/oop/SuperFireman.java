@@ -76,7 +76,9 @@ public class SuperFireman implements IHero{
 
     @Override
     public void fightProblem() {
-        myOwnProblem.solve();
+        if (myOwnProblem!=null) {
+            myOwnProblem.solve();
+        }
     }
 
     @Override
@@ -90,5 +92,9 @@ public class SuperFireman implements IHero{
     @Override
     public String getDescription() {
         return "tu wpisać opis";
+    }
+    @Override
+    public void subtractEnergy(IField field){
+        currEnergy-= field.energyCost(this);
     }
 }
