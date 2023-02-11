@@ -21,5 +21,5 @@ public class RegularField implements IField{
         return 1;
     }
     @Override
-    public String getColor(){return "-fx-background-color: #42C733";}
+    public String getColor(){return "-fx-background-color: #8EEB77";}
 }

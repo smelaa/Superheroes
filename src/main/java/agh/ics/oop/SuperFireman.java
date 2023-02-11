@@ -54,7 +54,7 @@ public class SuperFireman implements IHero{
     }
     @Override
     public String getImage() {
-        return "src/main/resources/superfireman.jpg";
+        return "src/main/resources/pictures/fireman.png";
     }
 
     @Override
@@ -83,11 +83,11 @@ public class SuperFireman implements IHero{
 
     @Override
     public String getPortrait() {
-        return "src/main/resources/superfireman.jpg";
+        return "src/main/resources/pictures/fireman_p.png";
     }
     @Override
     public String getName() {
-        return "Super Fireman";
+        return "Teddy McBurn";
     }
     @Override
     public String getDescription() {

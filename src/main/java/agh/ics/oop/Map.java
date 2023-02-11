@@ -192,12 +192,20 @@ public class Map {
         }
         return false;
     }
+    public boolean isHeroOnField(Vector2d position, HeroType hero) {
+        return heroes.containsKey(hero) && heroes.get(hero).getPosition().equals(position);
+    }
     public String getHeroImage(Vector2d position) {
         for(Object key: heroes.keySet()){
             if (heroes.get(key).getPosition().equals(position)){return heroes.get(key).getImage();}
         }
         return null;
     }
+    public String getHeroImage(HeroType hero) {
+        if (!heroes.containsKey(hero)){return null;}
+        return heroes.get(hero).getImage();
+    }
+
     public void removeSolvedProblems(Engine engine) {
         Object[] positions = problems.keySet().toArray();
         for(Object position : positions){
@@ -216,5 +224,9 @@ public class Map {
                 problems.remove(position);
             }
         }
+    }
+
+    public IHero getHero(HeroType hero) {
+        return heroes.get(hero);
     }
 }

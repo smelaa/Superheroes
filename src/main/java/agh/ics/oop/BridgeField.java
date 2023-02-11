@@ -22,5 +22,5 @@ public class BridgeField implements IField{
     }
 
     @Override
-    public String getColor(){return "-fx-background-color: #814807";}
+    public String getColor(){return "-fx-background-color: #8A5D40";}
 }

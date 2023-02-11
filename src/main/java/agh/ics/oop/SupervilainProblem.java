@@ -19,11 +19,11 @@ public class SupervilainProblem extends AbstractProblem{
     }
     @Override
     public String getImage() {
-        return "src/main/resources/supervilainproblem.jpg";
+        return "src/main/resources/pictures/supervillain.png";
     }
     @Override
     public String getPortrait() {
-        return "src/main/resources/supervilainproblem.jpg";
+        return "src/main/resources/pictures/supervillain_p.png";
     }
     @Override
     public String getName() {

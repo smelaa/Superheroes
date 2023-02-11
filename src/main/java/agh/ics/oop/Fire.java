@@ -15,11 +15,11 @@ public class Fire extends AbstractProblem{
     }
     @Override
     public String getImage() {
-        return "src/main/resources/fire.jpg";
+        return "src/main/resources/pictures/fire.png";
     }
     @Override
     public String getPortrait() {
-        return "src/main/resources/fire.jpg";
+        return "src/main/resources/pictures/fire_p.png";
     }
     @Override
     public String getName() {
