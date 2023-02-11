@@ -91,7 +91,15 @@ public class SuperFighter implements IHero{
     }
     @Override
     public String getDescription() {
-        return "tu wpisać opis";
+        return "Rocky Bamboo achieved everything any fighter dreams about. " +"\n"+
+                "Still, his passion, devotion and perseverance rose Rocky to the top " +"\n"+
+                "and now not only is he the best fighter in the universe but also fights for the better universe. " +"\n"+
+                "\"Who never wanted to become a superhero, throw the rock first\"."+"\n"+
+                "\n" +
+                "Everyday energy: 6" + "\n"+
+                "Energy left today: " + getEnergy() + "\n" +
+                "Supervillain solving time: 2 days" + "\n"+
+                "Detective puzzle boost: 2 days longer";
     }
     @Override
     public void subtractEnergy(IField field){

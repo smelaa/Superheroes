@@ -28,6 +28,11 @@ public class TechnicalIssue extends AbstractProblem {
     }
     @Override
     public String getDescription() {
-        return "tu wpisać opis";
+        return "Come here sweetheart. Something happened, I do not know what." +"\n"+
+                "I did not click anything, promise! You are playing this video games and study IT, help me, please. " +"\n"+
+                "Solving time: " + getSolvingTime() + "\n" +
+                "Destruction time: " +getDestructionTime() + "\n"+
+                "Days left to solve: " + getDaysLeftSolve()
+                ;
     }
 }

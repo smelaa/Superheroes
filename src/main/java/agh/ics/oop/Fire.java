@@ -27,6 +27,11 @@ public class Fire extends AbstractProblem{
     }
     @Override
     public String getDescription() {
-        return "tu wpisać opis";
+        return "Now I see fire Inside the mountain"+"\n" +
+                "And I see fire Burning the trees"+"\n" +
+                "And I see fire Hollowing soul"+"\n" +
+                "And I see fire Blood in the breeze"+"\n" +
+                "Solving time: " + getSolvingTime() + "\n" +
+                "Destruction time: " +getDestructionTime() + "\n";
     }
 }

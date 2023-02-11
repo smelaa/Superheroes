@@ -34,6 +34,9 @@ public abstract class AbstractProblem implements IProblem {
         daysLeftSolve-=1;
     }
     public int trustLoaf(){return 0;}
+    public int getDaysLeftSolve(){
+        return daysLeftSolve;
+    }
 
     @Override
     public boolean shouldBeDestructed(int currDay) {

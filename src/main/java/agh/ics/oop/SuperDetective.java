@@ -81,6 +81,7 @@ public class SuperDetective implements IHero{
         }
     }
 
+
     @Override
     public String getPortrait() {
         return "src/main/resources/pictures/detective_p.png";
@@ -91,7 +92,15 @@ public class SuperDetective implements IHero{
     }
     @Override
     public String getDescription() {
-        return "tu wpisać opis";
+        return "No need to introduce the greatest detective of all time. He is behind resolving the most difficult cases in the world, " + "\n"+
+                "like \"where the hedgehog stomps at night\". When Ram Rum asked him to do the mayor a favour, " + "\n"+
+                "he did not hesitate to help the citizens." + "\n"+
+                "\n" +
+                "Everyday energy: 4" + "\n"+
+                "Energy left today: " + getEnergy() + "\n" +
+                "Supervillain solving time: 1 day faster" + "\n" +
+                "Detective puzzle boost: 3 days faster" + "\n"+
+                "Technical issue: 2 days longer";
     }
     @Override
     public void subtractEnergy(IField field){

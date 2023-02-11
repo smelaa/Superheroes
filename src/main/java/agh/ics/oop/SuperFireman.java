@@ -91,7 +91,13 @@ public class SuperFireman implements IHero{
     }
     @Override
     public String getDescription() {
-        return "tu wpisać opis";
+        return "New McDonald's sandwich with fire red hot chilli peppers.. Oh wait, not this project.." + "\n"+
+                "\n" +
+                "Everyday energy: 4" + "\n"+
+                "Energy left today: " + getEnergy() + "\n" +
+                "Can pass river" + "\n"+
+                "Fire problem boost: 2 days faster"
+                ;
     }
     @Override
     public void subtractEnergy(IField field){
