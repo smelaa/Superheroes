@@ -3,8 +3,10 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,9 +18,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static java.lang.Math.min;
 
@@ -233,8 +237,13 @@ public class AppController {
     }
 
     @FXML
-    private void showRules(){
-
+    private void showRules() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RulesView.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("Superheroes game rules");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
