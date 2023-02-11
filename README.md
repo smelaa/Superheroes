@@ -5,7 +5,7 @@ The following project is an implementation of an [idea for a simple game](https:
 ## Bajtlandia is in trouble
 When the world heard that **Henry Cavill is no longer playing Superman**, everyone lost hope. “Roads were empty. Citizens were gathering and crying together, it was awful, we did not know what to do.” The atmosphere was tense, time was rough. **Everyone was lost. Until they were found.**
 
-**11.02.2023.** This date will be remembered forever by the Bajtlandia’s residents. Why? That is the day when **five horsemen of the help** arrived and brought the spark of hope. A combination of **pedantical Sherlock Hornes**, **fire-resistant Teddy McBurn**, **intelligent Bug Buster**, **strong Rock Rocky** and **strategic thinking You** is the last hope for the citizens. They relay on you, **will you be the real superhero?**
+**11.02.2023.** This date will be remembered forever by the Bajtlandia’s residents. Why? That is the day when **five horsemen of the help** arrived and brought the spark of hope. A combination of **pedantical Sherlock Horns**, **fire-resistant Teddy McBurn**, **intelligent Bug Buster**, **strong Rock Rocky** and **strategic thinking You** is the last hope for the citizens. They relay on you, **will you be the real superhero?**
 
 <img src=https://user-images.githubusercontent.com/97158770/218274982-187527e5-7677-41c9-aa5e-e0101a31b955.png width="200"><img src="https://user-images.githubusercontent.com/97158770/218274991-2b711a1f-8e89-4c53-a52c-4b2b8374f649.png" width="200"><img src="https://user-images.githubusercontent.com/97158770/218274995-09a7473c-87e7-44ea-9a08-bc3b9eff3b85.png" width="200"><img src="https://user-images.githubusercontent.com/97158770/218274999-9772301f-e0d1-40a4-b518-9f3ede8e63fb.png" width="200">
 
