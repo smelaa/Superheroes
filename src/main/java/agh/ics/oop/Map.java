@@ -229,4 +229,8 @@ public class Map {
     public IHero getHero(HeroType hero) {
         return heroes.get(hero);
     }
+
+    public IProblem getProblem(Vector2d position) {
+        return problems.get(position);
+    }
 }

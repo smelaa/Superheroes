@@ -96,6 +96,11 @@ public class AppController {
         }
     }
 
+    private void showProblem(IProblem problem){
+        activeHero=null;
+        renderDescriptionGrid(problem);
+    }
+
     private GridPane getPaneOfField(Vector2d position){
         GridPane newPane=new GridPane();
         newPane.getColumnConstraints().add(new ColumnConstraints(WIDTH/engine.getMap().getWidth()));
@@ -103,13 +108,21 @@ public class AppController {
         newPane.setGridLinesVisible(true);
         newPane.setStyle(engine.getMap().getColorOnField(position));
         if (engine.getMap().isProblemOnField(position)){
+            IProblem problem=engine.getMap().getProblem(position);
             Image image;
             try {
-                image = new Image(new FileInputStream(engine.getMap().getProblemImage(position)),WIDTH/engine.getMap().getWidth(),HEIGHT/engine.getMap().getHeight(),false,false);
+                image = new Image(new FileInputStream(problem.getImage()),WIDTH/engine.getMap().getWidth(),HEIGHT/engine.getMap().getHeight(),false,false);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            newPane.add(new ImageView(image),0,0);
+            ImageView imageView=new ImageView(image);
+            imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    showProblem(problem);
+                }
+            });
+            newPane.add(imageView,0,0);
         }
         if(engine.getMap().isHeroOnField(position,activeHero)){
             Image image;
