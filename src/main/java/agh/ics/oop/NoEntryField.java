@@ -22,5 +22,5 @@ public class NoEntryField implements IField{
         return Integer.MAX_VALUE;
     }
     @Override
-    public String getColor(){return "-fx-background-color: #000000";}
+    public String getColor(){return "-fx-background-color: #00420A";}
 }

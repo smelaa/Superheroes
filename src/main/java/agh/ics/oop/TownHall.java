@@ -22,5 +22,5 @@ public class TownHall implements IField{
     }
 
     @Override
-    public String getColor(){return "-fx-background-color: #FF00FF";}
+    public String getColor(){return "-fx-background-color: #A167FF";}
 }

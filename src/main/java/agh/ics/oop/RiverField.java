@@ -26,5 +26,5 @@ public class RiverField implements IField{
         };
     }
     @Override
-    public String getColor(){return "-fx-background-color: #43E9F5";}
+    public String getColor(){return "-fx-background-color: #48D1F0";}
 }

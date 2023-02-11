@@ -27,8 +27,6 @@ public class AppController {
     private final Double WIDTH=550.0;
     private Engine engine;
     @FXML
-    private Label everydayLabel;
-    @FXML
     private GridPane wholeScene;
 
     @FXML
@@ -63,7 +61,6 @@ public class AppController {
         engine.dayRitual();
         dayCounter.setText(engine.getDayNumber().toString());
         trustPoints.setText(engine.getTrustPoints().toString());
-        everydayLabel.setText(getRandomText());
         if(engine.isGameWon()){gameWon();}
         else if (engine.isGameLost()){gameLost();}
         else {
@@ -114,7 +111,16 @@ public class AppController {
             }
             newPane.add(new ImageView(image),0,0);
         }
-        if (engine.getMap().isHeroOnField(position)){
+        if(engine.getMap().isHeroOnField(position,activeHero)){
+            Image image;
+            try {
+                image = new Image(new FileInputStream(engine.getMap().getHeroImage(activeHero)),WIDTH/engine.getMap().getWidth(),HEIGHT/engine.getMap().getHeight(),false,false);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            newPane.add(new ImageView(image),0,0);
+        }
+        else if (engine.getMap().isHeroOnField(position)){
             Image image;
             try {
                 image = new Image(new FileInputStream(engine.getMap().getHeroImage(position)),WIDTH/engine.getMap().getWidth(),HEIGHT/engine.getMap().getHeight(),false,false);
@@ -126,45 +132,65 @@ public class AppController {
         return newPane;
     }
 
-    private String getRandomText(){
-        return "turiruri";
+    private void activateHero(HeroType hero){
+        activeHero=hero;
+        renderDescriptionGrid(engine.getHero(hero));
+        renderMap();
     }
-
+    private void renderDescriptionGrid(IMapElement element){
+        currentImage.getChildren().clear();
+        try {
+            Image image = new Image(new FileInputStream(element.getPortrait()),150,150,false,false);
+            currentImage.add(new ImageView(image),0,0);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        currentName.setText(element.getName());
+        currentDesctription.setText(element.getDescription());
+    }
     private void renderFighterGrid(){
         try {
 
-            ImageView scientistImage=new ImageView(new Image(new FileInputStream("src/main/resources/supercomputerscientist.jpg"),50,50,false,false));
-            ImageView detectiveImage=new ImageView(new Image(new FileInputStream("src/main/resources/superdetective.jpg"),50,50,false,false));
-            ImageView fighterImage=new ImageView(new Image(new FileInputStream("src/main/resources/superfighter.jpg"),50,50,false,false));
-            ImageView firemanImage=new ImageView(new Image(new FileInputStream("src/main/resources/superfireman.jpg"),50,50,false,false));
+            ImageView scientistImage=new ImageView(new Image(new FileInputStream("src/main/resources/pictures/scientist_p.png"),100,100,false,false));
+            ImageView detectiveImage=new ImageView(new Image(new FileInputStream("src/main/resources/pictures/detective_p.png"),100,100,false,false));
+            ImageView fighterImage=new ImageView(new Image(new FileInputStream("src/main/resources/pictures/fighter_p.png"),100,100,false,false));
+            ImageView firemanImage=new ImageView(new Image(new FileInputStream("src/main/resources/pictures/fireman_p.png"),100,100,false,false));
             scientistImage.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    activeHero=HeroType.ComputerScientist;
+                    activateHero(HeroType.ComputerScientist);
                 }
             });
             detectiveImage.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    activeHero=HeroType.Detective;
+                    activateHero(HeroType.Detective);
                 }
             });
             fighterImage.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    activeHero=HeroType.Fighter;
+                    activateHero(HeroType.Fighter);
                 }
             });
             firemanImage.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    activeHero=HeroType.Fireman;
+                    activateHero(HeroType.Fireman);
                 }
             });
             chooseFighter.add(scientistImage,0,0);
+            chooseFighter.setValignment(scientistImage, VPos.CENTER);
+            chooseFighter.setHalignment(scientistImage, HPos.CENTER);
             chooseFighter.add(detectiveImage,0,1);
+            chooseFighter.setValignment(detectiveImage, VPos.CENTER);
+            chooseFighter.setHalignment(detectiveImage, HPos.CENTER);
             chooseFighter.add(fighterImage,0,2);
+            chooseFighter.setValignment(fighterImage, VPos.CENTER);
+            chooseFighter.setHalignment(fighterImage, HPos.CENTER);
             chooseFighter.add(firemanImage,0,3);
+            chooseFighter.setValignment(firemanImage, VPos.CENTER);
+            chooseFighter.setHalignment(firemanImage, HPos.CENTER);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -191,6 +217,11 @@ public class AppController {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    private void showRules(){
+
     }
 
 }

@@ -8,7 +8,7 @@ import static java.lang.Math.max;
 public class Engine{
     private Integer trustPoints;
     private final Map map;
-    private Integer days=0;
+    private Integer days=1;
     private final Integer daysOfGame;
     private final Integer dayOfMayorSelfiesProblem;
     private Integer dayOfNextProblemToOccur=0;
@@ -120,6 +120,10 @@ public class Engine{
 
     public Integer getTrustPoints() {
         return trustPoints;
+    }
+
+    public IHero getHero(HeroType hero) {
+        return map.getHero(hero);
     }
 }
 
