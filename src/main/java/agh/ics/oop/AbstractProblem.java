@@ -1,6 +1,5 @@
 package agh.ics.oop;
 
-import java.util.Random;
 
 public abstract class AbstractProblem implements IProblem {
     protected int placedOnMap;

@@ -1,17 +1,11 @@
 package agh.ics.oop;
 
-import javafx.scene.image.Image;
-
 import java.util.*;
 
 public class Map {
     private final HashMap<Vector2d, IField> fields=new HashMap<>();
     private HashMap<Vector2d, IProblem> problems = new HashMap<>();
-    private HashMap<Vector2d, IHero> heroes = new HashMap<>();
-    private SuperFighter fighter;
-    private SuperFireman fireman;
-    private SuperDetective detective;
-    private SuperCompuerScientist scientist;
+    private HashMap<HeroType, IHero> heroes = new HashMap<>();
     private Integer width;
     private Integer height;
 
@@ -26,11 +20,14 @@ public class Map {
                 if (!fields.containsKey(new Vector2d(i,j))){emptyFields.add(new Vector2d(i,j));}
             }
         }
-        generateHardToPassFields(emptyFields,HardToPassN);
-        generateNoEntryFields(emptyFields,noEntryN);
-        Vector2d sweetHomePos=generateSpecialFields(emptyFields);
-        generateRegularFields(emptyFields);
-        generateHeros(sweetHomePos);
+        try{
+            generateHardToPassFields(emptyFields,HardToPassN);
+            generateNoEntryFields(emptyFields,noEntryN);
+            generateRegularFields(emptyFields);
+            Vector2d sweetHomePos=generateSpecialFields(emptyFields);
+            generateHeros(sweetHomePos);
+        }
+        catch(Exception e){e.printStackTrace();}
     }
 
     public Map(){
@@ -39,7 +36,7 @@ public class Map {
 
     private void generateRiver(Integer minX, Integer maxX, Integer height, Integer bridges) throws IllegalArgumentException{
         if (height<5){throw new IllegalArgumentException("can't generate river on map with height <5");}
-        if (minX<=maxX){throw new IllegalArgumentException("river needs to change direction - wrong minX, maxX arguments");}
+        if (minX>=maxX){throw new IllegalArgumentException("river needs to change direction - wrong minX, maxX arguments");}
         Random generator = new Random();
         Integer y = generator.nextInt(height-4)+2;
         List<Vector2d> forBridges=new ArrayList<>();
@@ -59,8 +56,9 @@ public class Map {
         }
         if (forBridges.size()<bridges){throw new IllegalArgumentException("can't generate bridges on the river");}
         for (int i=0;i<bridges;i++){
-            Integer bridgeIX = generator.nextInt(forBridges.size());
+            int bridgeIX = generator.nextInt(forBridges.size());
             fields.put(forBridges.get(bridgeIX), new BridgeField());
+            forBridges.remove(bridgeIX);
         }
     }
 
@@ -68,7 +66,7 @@ public class Map {
         if (emptyFields.size()<n){throw new IllegalArgumentException("there is not enough empty fields to generate HardToPassFields");}
         Random generator = new Random();
         for (int i=0;i<n;i++){
-            Integer newFieldIX = generator.nextInt(emptyFields.size());
+            int newFieldIX = generator.nextInt(emptyFields.size());
             fields.put(emptyFields.get(newFieldIX), new HardToPassField());
             emptyFields.remove(newFieldIX);
         }
@@ -78,7 +76,7 @@ public class Map {
         if (emptyFields.size()<n){throw new IllegalArgumentException("there is not enough empty fields to generate NoEntryFields");}
         Random generator = new Random();
         for (int i=0;i<n;i++){
-            Integer newFieldIX = generator.nextInt(emptyFields.size());
+            int newFieldIX = generator.nextInt(emptyFields.size());
             fields.put(emptyFields.get(newFieldIX), new NoEntryField());
             emptyFields.remove(newFieldIX);
         }
@@ -103,16 +101,13 @@ public class Map {
         for (int i=0;i<emptyFields.size();i++){
             fields.put(emptyFields.get(i), new RegularField());
         }
+
     }
     private void generateHeros(Vector2d sweetHomePos) {
-        fighter=new SuperFighter(sweetHomePos);
-        fireman=new SuperFireman(sweetHomePos);
-        detective=new SuperDetective(sweetHomePos);
-        scientist=new SuperCompuerScientist(sweetHomePos);
-        heroes.put(sweetHomePos,fighter);
-        heroes.put(sweetHomePos,fireman);
-        heroes.put(sweetHomePos,detective);
-        heroes.put(sweetHomePos,scientist);
+        heroes.put(HeroType.Fighter,new SuperFighter(sweetHomePos));
+        heroes.put(HeroType.Fireman,new SuperFireman(sweetHomePos));
+        heroes.put(HeroType.Detective,new SuperDetective(sweetHomePos));
+        heroes.put(HeroType.ComputerScientist,new SuperCompuerScientist(sweetHomePos));
     }
 
     protected void placeProblemOnMap(IProblem problem){
@@ -150,37 +145,37 @@ public class Map {
         return fields.get(position).getColor();
     }
 
+    public boolean canMoveTo(Vector2d position){
+        return position.follows(new Vector2d(0,0)) && position.precedes(new Vector2d(width-1, height-1));
+    }
+    public boolean haveEnergyToMove(Vector2d position, IHero hero){
+        return hero.getEnergy()-fields.get(position).energyCost(hero)>=0;
+    }
+
     public MoveCoordinates moveHeroOnMap(HeroType hType, MoveDirection direction){
-        IHero currHero= switch(hType){
-            case Fighter -> fighter;
-            case Fireman -> fireman;
-            case Detective -> detective;
-            case ComputerScientist -> scientist;
-        };
+        if(hType ==null){return null;}
+        IHero currHero= heroes.get(hType);
         Vector2d newPosition=currHero.getPosition().add(direction.toUnitVector());
-        if (currHero.getEnergy()-fields.get(newPosition).energyCost(currHero)>=0){
+        if (canMoveTo(newPosition)&&haveEnergyToMove(newPosition,currHero)){
             MoveCoordinates moveCoordinates= new MoveCoordinates(currHero.getPosition(), newPosition);
-            heroes.remove(currHero.getPosition());
             currHero.changePosition(newPosition);
-            heroes.put(currHero.getPosition(),currHero);
             currHero.assignProblem(problems.get(currHero.getPosition()));
+            currHero.subtractEnergy(fields.get(newPosition));
             return moveCoordinates;
         }
         return null;
     }
 
     public void renewHeroesEnergy(){
-        fireman.renewEnergy();
-        fighter.renewEnergy();
-        scientist.renewEnergy();
-        detective.renewEnergy();
+        for(Object key: heroes.keySet()){
+            heroes.get(key).renewEnergy();
+        }
     }
 
     public void fightProblems(){
-        fireman.fightProblem();
-        fighter.fightProblem();
-        scientist.fightProblem();
-        detective.fightProblem();
+        for(Object key: heroes.keySet()){
+            heroes.get(key).fightProblem();
+        }
     }
     public boolean isProblemOnField(Vector2d position) {
         return problems.containsKey(position);
@@ -192,16 +187,20 @@ public class Map {
     }
 
     public boolean isHeroOnField(Vector2d position) {
-        return heroes.containsKey(position);
+        for(Object key: heroes.keySet()){
+            if (heroes.get(key).getPosition().equals(position)){return true;}
+        }
+        return false;
     }
     public String getHeroImage(Vector2d position) {
-        if (!isHeroOnField(position)){return null;}
-        return heroes.get(position).getImage();
+        for(Object key: heroes.keySet()){
+            if (heroes.get(key).getPosition().equals(position)){return heroes.get(key).getImage();}
+        }
+        return null;
     }
-
     public void removeSolvedProblems(Engine engine) {
-        Vector2d[] positions = (Vector2d[]) problems.keySet().toArray();
-        for(Vector2d position : positions){
+        Object[] positions = problems.keySet().toArray();
+        for(Object position : positions){
             if(problems.get(position).isSolved()){
                 engine.addTrustPoints(problems.get(position).trustLoaf());
                 problems.remove(position);
@@ -210,8 +209,8 @@ public class Map {
     }
 
     public void destructProblems(Engine engine) {
-        Vector2d[] positions = (Vector2d[]) problems.keySet().toArray();
-        for(Vector2d position : positions){
+        Object[] positions = problems.keySet().toArray();
+        for(Object position : positions){
             if(problems.get(position).shouldBeDestructed(engine.getDayNumber())){
                 engine.removeTrustPoint();
                 problems.remove(position);
