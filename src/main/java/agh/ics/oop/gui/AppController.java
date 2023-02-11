@@ -3,8 +3,10 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,9 +18,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static java.lang.Math.min;
 
@@ -96,6 +100,11 @@ public class AppController {
         }
     }
 
+    private void showProblem(IProblem problem){
+        activeHero=null;
+        renderDescriptionGrid(problem);
+    }
+
     private GridPane getPaneOfField(Vector2d position){
         GridPane newPane=new GridPane();
         newPane.getColumnConstraints().add(new ColumnConstraints(WIDTH/engine.getMap().getWidth()));
@@ -103,13 +112,21 @@ public class AppController {
         newPane.setGridLinesVisible(true);
         newPane.setStyle(engine.getMap().getColorOnField(position));
         if (engine.getMap().isProblemOnField(position)){
+            IProblem problem=engine.getMap().getProblem(position);
             Image image;
             try {
-                image = new Image(new FileInputStream(engine.getMap().getProblemImage(position)),WIDTH/engine.getMap().getWidth(),HEIGHT/engine.getMap().getHeight(),false,false);
+                image = new Image(new FileInputStream(problem.getImage()),WIDTH/engine.getMap().getWidth(),HEIGHT/engine.getMap().getHeight(),false,false);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            newPane.add(new ImageView(image),0,0);
+            ImageView imageView=new ImageView(image);
+            imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    showProblem(problem);
+                }
+            });
+            newPane.add(imageView,0,0);
         }
         if(engine.getMap().isHeroOnField(position,activeHero)){
             Image image;
@@ -220,8 +237,13 @@ public class AppController {
     }
 
     @FXML
-    private void showRules(){
-
+    private void showRules() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RulesView.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setTitle("Superheroes game rules");
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
