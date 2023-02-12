@@ -219,7 +219,10 @@ public class AppController {
         wholeScene.getColumnConstraints().clear();
         wholeScene.getRowConstraints().clear();
         try {
-            wholeScene.add(new ImageView(new Image(new FileInputStream("src/main/resources/won.jpg"))),0,0);
+            ImageView image=new ImageView(new Image(new FileInputStream("src/main/resources/pictures/gamewon.png"),850,850,false,false));
+            wholeScene.add(image,0,0);
+            wholeScene.setValignment(image, VPos.CENTER);
+            wholeScene.setHalignment(image, HPos.CENTER);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -230,7 +233,10 @@ public class AppController {
         wholeScene.getColumnConstraints().clear();
         wholeScene.getRowConstraints().clear();
         try {
-            wholeScene.add(new ImageView(new Image(new FileInputStream("src/main/resources/lost.jpg"))),0,0);
+            ImageView image = new ImageView(new Image(new FileInputStream("src/main/resources/pictures/gameover.png"),850,850,false,false));
+            wholeScene.add(image,0,0);
+            wholeScene.setValignment(image, VPos.CENTER);
+            wholeScene.setHalignment(image, HPos.CENTER);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
