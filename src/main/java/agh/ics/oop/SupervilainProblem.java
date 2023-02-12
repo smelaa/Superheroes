@@ -31,7 +31,12 @@ public class SupervilainProblem extends AbstractProblem{
     }
     @Override
     public String getDescription() {
-        return "tu wpisać opis";
+        return "Imagine the worst character ever. Awful personality, " +
+                "zero interests and hates Kotlin. Supervillain is way worse than that." +"\n" +
+                "Solving time: " + getSolvingTime() + "\n" +
+                "Destruction time: " +getDestructionTime() + "\n"+
+                "Days left to solve: " + getDaysLeftSolve()
+                ;
     }
 
 }

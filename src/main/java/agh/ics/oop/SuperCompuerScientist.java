@@ -92,7 +92,16 @@ public class SuperCompuerScientist implements IHero{
     }
     @Override
     public String getDescription() {
-        return "tu wpisać opis";
+        return "Buster has been the best student at The Most Unexpected Bugs University in Bajtlandia so far. " + "\n"+
+                "Yet, he wanted to \"walk in a programmer shoes” and see what is like \"" +"\n"+
+                "to resolve problems rather than creating them." +"\n"+
+                "\n"+
+                "Everyday energy: 3" + "\n"+
+                "Energy left today: " + getEnergy() + "\n" +
+                "Supervillain solving time: 2 days longer" + "\n"+
+                "Detective puzzle boost: 1 day faster"+ "\n"+
+                "Fire boost: 1 day longer" + "\n"+
+                "Technical issue boost: 1 day";
     }
 
     @Override

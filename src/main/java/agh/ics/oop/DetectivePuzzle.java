@@ -29,7 +29,13 @@ public class DetectivePuzzle extends AbstractProblem{
     }
     @Override
     public String getDescription() {
-        return "tu wpisać opis";
+        return "After Chloe's and Lucifer's retirement, LAPD is helpless." +"\n" +
+                "Robert Hunter is too far away to help, still probably he will not be able to solve the crime" +"\n"+
+                "All in your hands" +"\n"+
+                "Solving time: " + getSolvingTime() + "\n" +
+                "Destruction time: " +getDestructionTime() + "\n"+
+                "Days left to solve: " + getDaysLeftSolve();
+
     }
 
 
