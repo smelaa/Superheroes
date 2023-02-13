@@ -21,12 +21,12 @@ public class SuperDetective implements IHero{
 
     @Override
     public int getSupervilainBoost() {
-        return - 1;
+        return 1;
     }
 
     @Override
     public int getTechnicalIssueBoost() {
-        return 2;
+        return -2;
     }
 
     @Override
@@ -92,18 +92,30 @@ public class SuperDetective implements IHero{
     }
     @Override
     public String getDescription() {
-        return "No need to introduce the greatest detective of all time. He is behind resolving the most difficult cases in the world, " + "\n"+
-                "like \"where the hedgehog stomps at night\". When Ram Rum asked him to do the mayor a favour, " + "\n"+
-                "he did not hesitate to help the citizens." + "\n"+
-                "\n" +
-                "Everyday energy: 4" + "\n"+
+        return "No need to introduce the greatest detective of all time.\n He is behind resolving the most difficult cases in the world, " + "\n"+
+                "like \"where the hedgehog stomps at night\". \n"
+                + "When Ram Rum asked him to do the mayor a favour, \n he did not hesitate to help the citizens.";
+    }
+    @Override
+    public String getStats(int currDay){
+        return "Everyday energy: 4" + "\n"+
                 "Energy left today: " + getEnergy() + "\n" +
                 "Supervillain solving time: 1 day faster" + "\n" +
                 "Detective puzzle boost: 3 days faster" + "\n"+
-                "Technical issue: 2 days longer";
+                "Technical issue: 2 days longer"+ "\n"+
+                "Currently solving any problem: "+isSolvingProblemToString();
     }
     @Override
     public void subtractEnergy(IField field){
         currEnergy-= field.energyCost(this);
+    }
+    @Override
+    public boolean isSolvingProblem() {
+        return myOwnProblem!=null && !myOwnProblem.isSolved();
+    }
+    @Override
+    public String isSolvingProblemToString() {
+        if (isSolvingProblem()) return "YES";
+        return "NO";
     }
 }

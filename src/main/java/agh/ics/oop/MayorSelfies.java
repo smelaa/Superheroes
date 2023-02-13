@@ -30,14 +30,19 @@ public class MayorSelfies extends AbstractProblem{
     }
     @Override
     public String getDescription() {
-        return "Mayor selfies went real! Until now only lovely wife could see the beauty of the Mayor " +"\n"+
+        return "Mayor selfies went real!\n Until now only lovely wife could see the beauty of the Mayor " +"\n"+
                 "and she will not like to share it with anyone else!" +"\n"+
                 "Yet you can get the pictures if you solve the problem." +"\n"+
-                "Worth it. " + "\n"+
-                "Solving time: " + getSolvingTime() + "\n" +
-                "Destruction time: " +getDestructionTime() + "\n"+
-                "Days left to solve: " + getDaysLeftSolve();
+                "Worth it. ";
 
+    }
+    @Override
+    public String getStats(int currDay){
+        return "Solving time: " + getSolvingTime() + "\n" +
+                "Destruction time: " +getDestructionTime() + "\n"+
+                "Days left to solve: " + getDaysLeftSolve()+"\n"+
+                "Days left till destruction: " + getDaysLeftDestruction(currDay)+"\n"+
+                "\nYou won't loose a trust point\nby not solving this problem,\nbut you can earn one if you do.";
     }
     @Override
     public int trustLoaf() {

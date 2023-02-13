@@ -10,21 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static java.lang.Math.min;
 
 public class AppController {
     private final Double HEIGHT=550.0;
@@ -48,7 +42,9 @@ public class AppController {
     private Label currentName;
 
     @FXML
-    private Label currentDesctription;
+    private Label currentDescription;
+    @FXML
+    private Label statsLabel;
 
     @FXML
     private GridPane mapPane;
@@ -62,6 +58,8 @@ public class AppController {
 
     @FXML
     private void startNewDay(){
+        activeHero=null;
+        clearDescriptionGrid();
         engine.dayRitual();
         dayCounter.setText(engine.getDayNumber().toString());
         trustPoints.setText(engine.getTrustPoints().toString());
@@ -76,6 +74,7 @@ public class AppController {
         MoveCoordinates coordinates=engine.moveHero(activeHero, direction);
         if (coordinates!=null){
             renderMap();
+            renderStatsLabel(activeHero);
             //tu może można zrobić tak żeby nie renderować całej mapy tylko dwa pola - ale wychodzą błędy
 //            renderField(coordinates.oldCoordinates());
 //            renderField(coordinates.newCoordinates());
@@ -163,7 +162,20 @@ public class AppController {
             throw new RuntimeException(e);
         }
         currentName.setText(element.getName());
-        currentDesctription.setText(element.getDescription());
+        currentDescription.setText(element.getDescription());
+        renderStatsLabel(element);
+    }
+    private void clearDescriptionGrid() {
+        currentImage.getChildren().clear();
+        currentName.setText("");
+        currentDescription.setText("");
+        statsLabel.setText("");
+    }
+    private void renderStatsLabel(IMapElement element){
+        statsLabel.setText(element.getStats(engine.getDayNumber()));
+    }
+    private void renderStatsLabel(HeroType hero){
+        statsLabel.setText(engine.getHero(hero).getStats(engine.getDayNumber()));
     }
     private void renderFighterGrid(){
         try {
@@ -213,13 +225,13 @@ public class AppController {
         }
 
     }
-
-    private void gameWon(){
+    private void gameEnd(String imagePath){
+        activeHero=null;
         wholeScene.getChildren().clear();
         wholeScene.getColumnConstraints().clear();
         wholeScene.getRowConstraints().clear();
         try {
-            ImageView image=new ImageView(new Image(new FileInputStream("src/main/resources/pictures/gamewon.png"),850,850,false,false));
+            ImageView image=new ImageView(new Image(new FileInputStream(imagePath),850,850,false,false));
             wholeScene.add(image,0,0);
             wholeScene.setValignment(image, VPos.CENTER);
             wholeScene.setHalignment(image, HPos.CENTER);
@@ -227,19 +239,12 @@ public class AppController {
             throw new RuntimeException(e);
         }
     }
+    private void gameWon(){
+        gameEnd("src/main/resources/pictures/gamewon.png");
+    }
 
     private void gameLost(){
-        wholeScene.getChildren().clear();
-        wholeScene.getColumnConstraints().clear();
-        wholeScene.getRowConstraints().clear();
-        try {
-            ImageView image = new ImageView(new Image(new FileInputStream("src/main/resources/pictures/gameover.png"),850,850,false,false));
-            wholeScene.add(image,0,0);
-            wholeScene.setValignment(image, VPos.CENTER);
-            wholeScene.setHalignment(image, HPos.CENTER);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        gameEnd("src/main/resources/pictures/gameover.png");
     }
 
     @FXML
