@@ -36,7 +36,7 @@ public class SuperFireman implements IHero{
 
     @Override
     public int getFireBoost() {
-        return - 2;
+        return 2;
     }
 
     @Override
@@ -91,16 +91,28 @@ public class SuperFireman implements IHero{
     }
     @Override
     public String getDescription() {
-        return "New McDonald's sandwich with fire red hot chilli peppers.. Oh wait, not this project.." + "\n"+
-                "\n" +
-                "Everyday energy: 4" + "\n"+
+        return "New McDonald's sandwich with fire red hot chilli peppers..\nOh wait, not this project..";
+
+    }
+    @Override
+    public String getStats(int currDay){
+        return "Everyday energy: 4" + "\n"+
                 "Energy left today: " + getEnergy() + "\n" +
                 "Can pass river" + "\n"+
-                "Fire problem boost: 2 days faster"
-                ;
+                "Fire problem boost: 2 days faster"+ "\n"+
+                "Currently solving any problem: "+isSolvingProblemToString();
     }
     @Override
     public void subtractEnergy(IField field){
         currEnergy-= field.energyCost(this);
+    }
+    @Override
+    public boolean isSolvingProblem() {
+        return myOwnProblem!=null && !myOwnProblem.isSolved();
+    }
+    @Override
+    public String isSolvingProblemToString() {
+        if (isSolvingProblem()) return "YES";
+        return "NO";
     }
 }

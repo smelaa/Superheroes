@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import java.util.Random;
 
+import static java.lang.Math.max;
+
 public class TechnicalIssue extends AbstractProblem {
     public TechnicalIssue(int dayOfOccurance) {
         placedOnMap=dayOfOccurance;
@@ -10,9 +12,10 @@ public class TechnicalIssue extends AbstractProblem {
         daysLeftSolve=solvingTime;
     }
 
+
     @Override
     public void startSolving(IHero hero) {
-        daysLeftSolve-=hero.getTechnicalIssueBoost();
+        daysLeftSolve=max(1,daysLeftSolve-hero.getTechnicalIssueBoost());
     }
     @Override
     public String getImage() {
@@ -29,10 +32,7 @@ public class TechnicalIssue extends AbstractProblem {
     @Override
     public String getDescription() {
         return "Come here sweetheart. Something happened, I do not know what." +"\n"+
-                "I did not click anything, promise! You are playing this video games and study IT, help me, please. " +"\n"+
-                "Solving time: " + getSolvingTime() + "\n" +
-                "Destruction time: " +getDestructionTime() + "\n"+
-                "Days left to solve: " + getDaysLeftSolve()
-                ;
+                "I did not click anything, promise!\nYou are playing this video games and study IT.\nHelp me, please!";
     }
+
 }

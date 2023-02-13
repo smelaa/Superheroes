@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import java.util.Random;
 
+import static java.lang.Math.max;
+
 public class SupervilainProblem extends AbstractProblem{
     public SupervilainProblem(int dayOfOccurance) {
         placedOnMap=dayOfOccurance;
@@ -15,7 +17,7 @@ public class SupervilainProblem extends AbstractProblem{
     }
     @Override
     public void startSolving(IHero hero) {
-        daysLeftSolve-=hero.getSupervilainBoost();
+        daysLeftSolve=max(1,daysLeftSolve-hero.getSupervilainBoost());
     }
     @Override
     public String getImage() {
@@ -31,12 +33,9 @@ public class SupervilainProblem extends AbstractProblem{
     }
     @Override
     public String getDescription() {
-        return "Imagine the worst character ever. Awful personality, " +
-                "zero interests and hates Kotlin. Supervillain is way worse than that." +"\n" +
-                "Solving time: " + getSolvingTime() + "\n" +
-                "Destruction time: " +getDestructionTime() + "\n"+
-                "Days left to solve: " + getDaysLeftSolve()
-                ;
+        return "Imagine the worst character ever.\n" +
+                "Awful personality, zero interests and hates Kotlin.\n" +
+                "Supervillain is way worse than that.";
     }
 
 }

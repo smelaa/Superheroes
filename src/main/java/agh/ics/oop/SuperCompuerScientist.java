@@ -21,22 +21,22 @@ public class SuperCompuerScientist implements IHero{
 
     @Override
     public int getSupervilainBoost() {
-        return  2;
+        return  -2;
     }
 
     @Override
     public int getTechnicalIssueBoost() {
-        return 1;
+        return Integer.MAX_VALUE;
     }
 
     @Override
     public int getDetectivePuzzleBoost() {
-        return - 1;
+        return 1;
     }
 
     @Override
     public int getFireBoost() {
-        return 1;
+        return -1;
     }
 
     @Override
@@ -92,21 +92,35 @@ public class SuperCompuerScientist implements IHero{
     }
     @Override
     public String getDescription() {
-        return "Buster has been the best student at The Most Unexpected Bugs University in Bajtlandia so far. " + "\n"+
-                "Yet, he wanted to \"walk in a programmer shoes” and see what is like \"" +"\n"+
-                "to resolve problems rather than creating them." +"\n"+
-                "\n"+
-                "Everyday energy: 3" + "\n"+
+        return "Buster has been the best student at The Most Unexpected Bugs University\n"
+                + "in Bajtlandia so far. " + "\n"+
+                "Yet, he wanted to \"walk in a programmer shoes and see what is like \"" +"\n"+
+                "to resolve problems rather than creating them.";
+    }
+    @Override
+    public String getStats(int currDay){
+        return "Everyday energy: 3" + "\n"+
                 "Energy left today: " + getEnergy() + "\n" +
                 "Supervillain solving time: 2 days longer" + "\n"+
                 "Detective puzzle boost: 1 day faster"+ "\n"+
                 "Fire boost: 1 day longer" + "\n"+
-                "Technical issue boost: 1 day";
+                "Technical issue boost: 1 day"+ "\n"+
+                "Currently solving any problem: "+isSolvingProblemToString();
     }
 
     @Override
     public void subtractEnergy(IField field){
         currEnergy-= field.energyCost(this);
+    }
+
+    @Override
+    public boolean isSolvingProblem() {
+        return myOwnProblem!=null && !myOwnProblem.isSolved();
+    }
+    @Override
+    public String isSolvingProblemToString() {
+        if (isSolvingProblem()) return "YES";
+        return "NO";
     }
 
 }

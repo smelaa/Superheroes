@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import java.util.Random;
 
+import static java.lang.Math.max;
+
 public class DetectivePuzzle extends AbstractProblem{
     public DetectivePuzzle(int dayOfOccurance) {
         placedOnMap=dayOfOccurance;
@@ -12,7 +14,7 @@ public class DetectivePuzzle extends AbstractProblem{
 
     @Override
     public void startSolving(IHero hero) {
-        daysLeftSolve-=hero.getDetectivePuzzleBoost();
+        daysLeftSolve=max(1,daysLeftSolve-hero.getDetectivePuzzleBoost());
     }
 
     @Override
@@ -30,11 +32,8 @@ public class DetectivePuzzle extends AbstractProblem{
     @Override
     public String getDescription() {
         return "After Chloe's and Lucifer's retirement, LAPD is helpless." +"\n" +
-                "Robert Hunter is too far away to help, still probably he will not be able to solve the crime" +"\n"+
-                "All in your hands" +"\n"+
-                "Solving time: " + getSolvingTime() + "\n" +
-                "Destruction time: " +getDestructionTime() + "\n"+
-                "Days left to solve: " + getDaysLeftSolve();
+                "Robert Hunter is too far away to help, \nstill probably he will not be able to solve the crime" +"\n"+
+                "All in your hands";
 
     }
 

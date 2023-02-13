@@ -27,6 +27,13 @@ public abstract class AbstractProblem implements IProblem {
     abstract public String getName();
     abstract public String getPortrait();
     abstract public String getDescription();
+    @Override
+    public String getStats(int currDay){
+        return "Solving time: " + getSolvingTime() + "\n" +
+                "Destruction time: " +getDestructionTime() + "\n"+
+                "Days left to solve: " + getDaysLeftSolve()+ "\n"+
+                "Days left till destruction: " + getDaysLeftDestruction(currDay);
+    }
     public boolean isSolved(){
         return daysLeftSolve<=0;
     }
@@ -36,6 +43,9 @@ public abstract class AbstractProblem implements IProblem {
     public int trustLoaf(){return 0;}
     public int getDaysLeftSolve(){
         return daysLeftSolve;
+    }
+    public int getDaysLeftDestruction(int currDay){
+        return getDestructionTime()-(currDay-placedOnMap);
     }
 
     @Override

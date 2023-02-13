@@ -21,4 +21,6 @@ public interface IHero extends IMapElement{
     void fightProblem();
 
     void subtractEnergy(IField field);
+    boolean isSolvingProblem();
+    String isSolvingProblemToString();
 }

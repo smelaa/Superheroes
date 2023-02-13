@@ -31,7 +31,7 @@ public class SuperFighter implements IHero{
 
     @Override
     public int getDetectivePuzzleBoost() {
-        return 2;
+        return -2;
     }
 
     @Override
@@ -93,16 +93,28 @@ public class SuperFighter implements IHero{
     public String getDescription() {
         return "Rocky Bamboo achieved everything any fighter dreams about. " +"\n"+
                 "Still, his passion, devotion and perseverance rose Rocky to the top " +"\n"+
-                "and now not only is he the best fighter in the universe but also fights for the better universe. " +"\n"+
-                "\"Who never wanted to become a superhero, throw the rock first\"."+"\n"+
-                "\n" +
-                "Everyday energy: 6" + "\n"+
+                "and now not only is he the best fighter in the universe\nbut also fights for the better universe. " +"\n"+
+                "\"Who never wanted to become a superhero, throw the rock first\".";
+    }
+    @Override
+    public String getStats(int currDay){
+        return "Everyday energy: 6" + "\n"+
                 "Energy left today: " + getEnergy() + "\n" +
                 "Supervillain solving time: 2 days" + "\n"+
-                "Detective puzzle boost: 2 days longer";
+                "Detective puzzle boost: 2 days longer"+ "\n"+
+                "Currently solving any problem: "+isSolvingProblemToString();
     }
     @Override
     public void subtractEnergy(IField field){
         currEnergy-= field.energyCost(this);
+    }
+    @Override
+    public boolean isSolvingProblem() {
+        return myOwnProblem!=null && !myOwnProblem.isSolved();
+    }
+    @Override
+    public String isSolvingProblemToString() {
+        if (isSolvingProblem()) return "YES";
+        return "NO";
     }
 }

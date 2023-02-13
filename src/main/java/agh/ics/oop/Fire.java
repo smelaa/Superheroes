@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import java.util.Random;
 
+import static java.lang.Math.max;
+
 public class Fire extends AbstractProblem{
     public Fire(int dayOfOccurance) {
         placedOnMap=dayOfOccurance;
@@ -11,7 +13,7 @@ public class Fire extends AbstractProblem{
     }
     @Override
     public void startSolving(IHero hero) {
-        daysLeftSolve-=hero.getFireBoost();
+        daysLeftSolve=max(1,daysLeftSolve-hero.getFireBoost());
     }
     @Override
     public String getImage() {
@@ -30,8 +32,7 @@ public class Fire extends AbstractProblem{
         return "Now I see fire Inside the mountain"+"\n" +
                 "And I see fire Burning the trees"+"\n" +
                 "And I see fire Hollowing soul"+"\n" +
-                "And I see fire Blood in the breeze"+"\n" +
-                "Solving time: " + getSolvingTime() + "\n" +
-                "Destruction time: " +getDestructionTime() + "\n";
+                "And I see fire Blood in the breeze";
     }
+
 }
