@@ -11,15 +11,12 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
-    AppController controller;
-    private Engine engine;
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GameView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        controller=fxmlLoader.getController();
-        engine=new Engine();
-        controller.initial(engine);
+        AppController controller=fxmlLoader.getController();
+        controller.initial(new Engine());
         scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent key) -> {
             switch(key.getCode()){
                 case UP->controller.moveActiveHero(MoveDirection.FORWARD);

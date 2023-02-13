@@ -55,55 +55,6 @@ public class AppController {
         renderFighterGrid();
         renderMap();
     }
-
-    @FXML
-    private void startNewDay(){
-        activeHero=null;
-        clearDescriptionGrid();
-        engine.dayRitual();
-        dayCounter.setText(engine.getDayNumber().toString());
-        trustPoints.setText(engine.getTrustPoints().toString());
-        if(engine.isGameWon()){gameWon();}
-        else if (engine.isGameLost()){gameLost();}
-        else {
-            renderMap();
-        }
-    }
-
-    public void moveActiveHero(MoveDirection direction){
-        MoveCoordinates coordinates=engine.moveHero(activeHero, direction);
-        if (coordinates!=null){
-            renderMap();
-            renderStatsLabel(activeHero);
-            //tu może można zrobić tak żeby nie renderować całej mapy tylko dwa pola - ale wychodzą błędy
-//            renderField(coordinates.oldCoordinates());
-//            renderField(coordinates.newCoordinates());
-        }
-    }
-
-    public void renderField(Vector2d coordinates){
-        mapPane.getChildren().removeIf( node -> GridPane.getColumnIndex(node) == coordinates.getX() && GridPane.getRowIndex(node) == engine.getMap().getHeight()-1-coordinates.getY());
-        mapPane.add(getPaneOfField(new Vector2d(coordinates.getX(),coordinates.getY())),coordinates.getX(),engine.getMap().getHeight()-1-coordinates.getY());
-    }
-
-    public void renderMap(){
-        mapPane.setGridLinesVisible(false);
-        mapPane.getChildren().clear();
-        mapPane.getColumnConstraints().clear();
-        mapPane.getRowConstraints().clear();
-        mapPane.setGridLinesVisible(true);
-        for (int x=0;x<engine.getMap().getWidth();x++){
-            for (int y=engine.getMap().getHeight()-1;y>=0 ;y--){
-                mapPane.add(getPaneOfField(new Vector2d(x,y)),x,engine.getMap().getHeight()-1-y);
-            }
-        }
-    }
-
-    private void showProblem(IProblem problem){
-        activeHero=null;
-        renderDescriptionGrid(problem);
-    }
-
     private GridPane getPaneOfField(Vector2d position){
         GridPane newPane=new GridPane();
         newPane.getColumnConstraints().add(new ColumnConstraints(WIDTH/engine.getMap().getWidth()));
@@ -147,29 +98,17 @@ public class AppController {
         }
         return newPane;
     }
-
-    private void activateHero(HeroType hero){
-        activeHero=hero;
-        renderDescriptionGrid(engine.getHero(hero));
-        renderMap();
-    }
-    private void renderDescriptionGrid(IMapElement element){
-        currentImage.getChildren().clear();
-        try {
-            Image image = new Image(new FileInputStream(element.getPortrait()),150,150,false,false);
-            currentImage.add(new ImageView(image),0,0);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+    public void renderMap(){
+        mapPane.setGridLinesVisible(false);
+        mapPane.getChildren().clear();
+        mapPane.getColumnConstraints().clear();
+        mapPane.getRowConstraints().clear();
+        mapPane.setGridLinesVisible(true);
+        for (int x=0;x<engine.getMap().getWidth();x++){
+            for (int y=engine.getMap().getHeight()-1;y>=0 ;y--){
+                mapPane.add(getPaneOfField(new Vector2d(x,y)),x,engine.getMap().getHeight()-1-y);
+            }
         }
-        currentName.setText(element.getName());
-        currentDescription.setText(element.getDescription());
-        renderStatsLabel(element);
-    }
-    private void clearDescriptionGrid() {
-        currentImage.getChildren().clear();
-        currentName.setText("");
-        currentDescription.setText("");
-        statsLabel.setText("");
     }
     private void renderStatsLabel(IMapElement element){
         statsLabel.setText(element.getStats(engine.getDayNumber()));
@@ -225,6 +164,43 @@ public class AppController {
         }
 
     }
+    private void renderDescriptionGrid(IMapElement element){
+        currentImage.getChildren().clear();
+        try {
+            Image image = new Image(new FileInputStream(element.getPortrait()),150,150,false,false);
+            currentImage.add(new ImageView(image),0,0);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        currentName.setText(element.getName());
+        currentDescription.setText(element.getDescription());
+        renderStatsLabel(element);
+    }
+    private void clearDescriptionGrid() {
+        currentImage.getChildren().clear();
+        currentName.setText("");
+        currentDescription.setText("");
+        statsLabel.setText("");
+    }
+
+    private void showProblem(IProblem problem){
+        activeHero=null;
+        renderDescriptionGrid(problem);
+    }
+
+    private void activateHero(HeroType hero){
+        activeHero=hero;
+        renderDescriptionGrid(engine.getHero(hero));
+        renderMap();
+    }
+    public void moveActiveHero(MoveDirection direction){
+        MoveCoordinates coordinates=engine.moveHero(activeHero, direction);
+        if (coordinates!=null){
+            renderMap();
+            renderStatsLabel(activeHero);
+        }
+    }
+
     private void gameEnd(String imagePath){
         activeHero=null;
         wholeScene.getChildren().clear();
@@ -255,6 +231,19 @@ public class AppController {
         stage.setTitle("Superheroes game rules");
         stage.setScene(scene);
         stage.show();
+    }
+    @FXML
+    private void startNewDay(){
+        activeHero=null;
+        clearDescriptionGrid();
+        engine.dayRitual();
+        dayCounter.setText(engine.getDayNumber().toString());
+        trustPoints.setText(engine.getTrustPoints().toString());
+        if(engine.isGameWon()){gameWon();}
+        else if (engine.isGameLost()){gameLost();}
+        else {
+            renderMap();
+        }
     }
 
 }
